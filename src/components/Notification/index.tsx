@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Cross, SuccessCheck, Warning } from '@/svgs';
 import styles from './style.module.css';
@@ -13,18 +13,34 @@ interface Props {
     autoHide?: number;
 }
 
-const Notification = ({ message, type, isVisible = false, close, autoHide = 4000 }: Props) => {
+const Notification = ({ message, type, isVisible = false, close, autoHide }: Props) => {
+    const [isClosing, setIsClosing] = useState(false);
+
+     useEffect(() => {
+        if (isVisible) {
+            setIsClosing(false);
+        }
+    }, [isVisible]);
+    
     useEffect(() => {
         if (!isVisible) return;
 
         const timer = setTimeout(() => {
-            close();
+            handleClose();
         }, autoHide);
 
         return () => clearTimeout(timer);
-    }, [isVisible, autoHide, close]);
+    }, [isVisible, isClosing, autoHide]);
 
-    if (!isVisible) return null;
+    const handleClose = () => {
+        if (isClosing) return;
+        setIsClosing(true);
+        setTimeout(() => {
+            close();
+        }, 300);
+    };
+
+    if (!isVisible && !isClosing) return null;
 
     const typeClass =
         type === 'success'
@@ -33,8 +49,10 @@ const Notification = ({ message, type, isVisible = false, close, autoHide = 4000
                 ? styles.error
                 : styles.warning;
 
+    const animationClass = isClosing ? styles.slideOut : styles.slideIn;
+
     const notificationElement = (
-        <div data-testid="notification" className={`${styles.notification} ${typeClass}`}>
+        <div data-testid="notification" className={`${styles.notification} ${typeClass} ${animationClass}`}>
             <div className={styles.notificationContent}>
                 <span className={styles.notificationIcon}>
                     {type === 'success' && <SuccessCheck />}
@@ -45,7 +63,7 @@ const Notification = ({ message, type, isVisible = false, close, autoHide = 4000
                 <button
                     data-testid="close-button"
                     className={styles.notificationClose}
-                    onClick={close}
+                    onClick={handleClose}
                 >
                     ×
                 </button>

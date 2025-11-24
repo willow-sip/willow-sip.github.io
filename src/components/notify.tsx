@@ -46,9 +46,10 @@ const render = () => {
     );
 };
 
-export const showNotification = (message: string, type: 'success' | 'error' | 'warning', autoHide: number = 4000) => {
+export const showNotification = (message: string, type: 'success' | 'error' | 'warning', autoHide: number) => {
     const id = Date.now();
-    notifications.push({ id, message, type, autoHide });
+    const newAutoHide = autoHide + notifications.length * 100;
+    notifications.push({ id, message, type, autoHide: newAutoHide });
 
     render();
 

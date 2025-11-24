@@ -98,7 +98,7 @@ export const tokenApi = {
     }
 
     if (!res.ok) throw new Error(`DELETE ${endpoint} failed`);
-    return res.json();
+    return res.status;
   }
 
 };

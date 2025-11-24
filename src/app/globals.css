@@ -79,6 +79,33 @@ svg.outline path{
   stroke: var(--text-color);
 }
 
+#notification-root {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 9999;
+  max-width: 400px;
+  min-width: 300px;
+  width: fit-content;
+  pointer-events: none;
+}
+
+#notification-root > * {
+  pointer-events: auto;
+}
+
+@media (max-width: 480px) {
+  #notification-root {
+    left: 10px;
+    right: 10px;
+    max-width: none;
+    min-width: auto;
+  }
+}
+
 @media (max-width: 768px) {
   .posts {
     width: 100%;

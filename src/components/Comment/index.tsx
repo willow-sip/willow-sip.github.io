@@ -44,7 +44,7 @@ const Comment = React.memo(({ id, authorId, text, edit, deleteComm }: CommentPro
             return response;
         },
         onSuccess: (newComment) => {
-            edit?.(newComment.text);
+            edit?.(newComment.text, id);
             setIsEditing(false);
         },
         onError: (error) => {
@@ -55,16 +55,17 @@ const Comment = React.memo(({ id, authorId, text, edit, deleteComm }: CommentPro
     const deleteMutation = useMutation({
         mutationFn: async () => {
             const response = await tokenApi.delete(`/comments/${id}`);
+            return response;
         },
         onSuccess: () => {
-            deleteComm?.();
+            deleteComm?.(id);
         },
         onError: (error) => {
             console.log(error);
         }
     });
 
-    
+
     const canModify = user?.id === authorId;
 
     const handleEdit = () => {
@@ -75,7 +76,7 @@ const Comment = React.memo(({ id, authorId, text, edit, deleteComm }: CommentPro
     };
 
     const handleSaveEdit = () => {
-        if (editText.trim()){
+        if (editText.trim()) {
             editMutation.mutate();
         }
     };
@@ -106,7 +107,14 @@ const Comment = React.memo(({ id, authorId, text, edit, deleteComm }: CommentPro
             style={fadeInSpring}
         >
             {isEditing ? (
-                <Box >
+                <Box
+                    sx={{
+                        width: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 1,
+                    }}
+                >
                     <TextField
                         fullWidth
                         multiline
@@ -116,51 +124,69 @@ const Comment = React.memo(({ id, authorId, text, edit, deleteComm }: CommentPro
                         value={editText}
                         onChange={(e) => setEditText(e.target.value)}
                         sx={{
-                            width: 652,
-                            height: 58,
+                            width: '100%',
+                            height: 63,
                             bgcolor: 'var(--bg-color)',
-                            border: '1px solid var(--border-color)',
+                            '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                    borderColor: 'var(--border-color)',
+                                    borderWidth: '1px',
+                                    borderRadius: 0,
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: 'var(--border-color)',
+                                    borderWidth: '1px',
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: 'var(--border-color)',
+                                },
+                            },
                             '& .MuiInputBase-input': {
                                 color: 'var(--text-color)',
                             },
-                            '& .MuiOutlinedInput-root': {
-                                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                    border: 'none',
-                                },
-                            },
-                            resize: 'none',
                         }}
                     />
-                    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', gap: 1 }}>
+
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            gap: 1,
+                            width: '100%',
+                        }}
+                    >
                         <Button
+                            onClick={handleCancelEdit}
                             sx={{
-                                width: 211,
+                                flex: 1,
                                 height: 44,
                                 bgcolor: 'var(--footer-text-color)',
-                                p: '12 48',
-                                mt: '12px',
                                 border: 'none',
                                 borderRadius: 0,
                                 color: 'var(--text-color)',
                                 textTransform: 'none',
+                                py: 1.5,
+                                px: 2,
                             }}
-                            onClick={handleCancelEdit}
-                        >Cancel</Button>
+                        >
+                            Cancel
+                        </Button>
                         <Button
                             onClick={handleSaveEdit}
                             disabled={!editText.trim()}
                             sx={{
-                                width: 211,
+                                flex: 1,
                                 height: 44,
                                 bgcolor: 'var(--footer-text-color)',
-                                p: '12 48',
-                                mt: '12px',
                                 border: 'none',
                                 borderRadius: 0,
                                 color: 'var(--text-color)',
                                 textTransform: 'none',
+                                py: 1.5,
+                                px: 2,
                             }}
-                        >Save</Button>
+                        >
+                            Save
+                        </Button>
                     </Box>
                 </Box>
             ) : (

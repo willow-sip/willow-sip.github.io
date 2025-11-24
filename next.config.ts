@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
     workerThreads: false,
     cpus: 1,
   },
+
+  images: {
+    unoptimized: true,
+  },
   
   turbopack: {
     rules: {
@@ -18,6 +22,9 @@ const nextConfig: NextConfig = {
         loaders: ['@svgr/webpack'],
         as: '*.js',
       },
+    },
+    resolveAlias: {
+      'next/image': ('@components/StaticImage.tsx'),
     },
   },
 };

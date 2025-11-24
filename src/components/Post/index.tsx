@@ -66,8 +66,11 @@ class Post extends Component<PostProps, PostState> {
     }
 
     deleteComment(commentId?: number) {
+        
         this.setState((prev) => ({
-            comments: prev.comments?.filter((c) => c.id !== commentId),
+            comments: prev.comments?.filter((c) =>{
+                return c.id !== commentId;
+            } ),
         }));
         showNotification(this.props.t('deleteComment'), 'success', 2000);
     }
@@ -209,7 +212,6 @@ class Post extends Component<PostProps, PostState> {
             this.loadCommentsAndAuthor();
         }
     }
-
 
     render() {
         const { showComments } = this.state;
