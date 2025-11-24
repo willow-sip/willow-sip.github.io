@@ -1,0 +1,53 @@
+.comment {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 652px;
+}
+
+.editComment{
+  display: flex;
+  align-self: flex-end;
+}
+
+.editComment button{
+  color: var(--text-color);
+  font-size: 24px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.editMode textarea {
+    width: 652px;
+    height: 58px;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    font-family: inherit;
+    color: var(--text-color);
+    resize: none;
+}
+
+.editActions{
+  display: flex;
+  justify-content: space-between;
+}
+
+.editMode button {
+    width: 211px;
+    height: 44px;
+    color: var(--text-color);
+    padding: 12px 48px;
+    background-color: var(--footer-text-color);
+    border: none;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: background-color 0.3s ease;
+}
+
+.editMode button:hover {
+    background-color: rgba(var(--footer-text-color), 0.8);
+}

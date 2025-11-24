@@ -1,0 +1,18 @@
+export {default as Envelope} from "./Envelope.svg";
+export {default as Pencil} from "./Pencil.svg";
+export {default as UploadFile} from "./UploadFile.svg";
+export {default as Eye} from "./Eye.svg";
+export {default as BurgerMenu} from "./BurgerMenu.svg";
+export {default as Logout} from "./Logout.svg";
+export {default as Sun} from "./Sun.svg";
+export {default as Moon} from "./Moon.svg";
+export {default as SuccessCheck} from "./SuccessCheck.svg";
+export {default as Cross} from "./Cross.svg";
+export {default as Warning} from "./Warning.svg";
+export {default as Person} from "./Person.svg";
+export {default as Important} from "./Important.svg";
+export {default as CommentSvg} from "./CommentSvg.svg";
+export {default as LikeSvg} from "./LikeSvg.svg";
+export {default as ArrowUp} from "./ArrowUp.svg";
+export {default as ArrowDown} from "./ArrowDown.svg";
+

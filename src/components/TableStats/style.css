@@ -1,0 +1,81 @@
+.statsTable {
+    display: flex;
+    width: 1200px;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+
+.statsTable .stat {
+    width: 575px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.stat h3 {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0;
+}
+
+table {
+    display: block;
+    padding: 24px;
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--comp-bg-color);
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 16px;
+    overflow: hidden;
+}
+
+
+thead tr{
+    color: var(--small-text-color);
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+}
+
+tr {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--text-color);
+    cursor: context-menu;
+    border-top: 1px solid var(--border-color);
+    height: 48px;
+}
+
+th:first-child,
+td:first-child {
+  width: 82%;
+  text-align: left;
+}
+th:last-child,
+td:last-child {
+  width: 50%;
+  text-align: right;
+}
+
+tr:hover {
+    background-color: var(--border-color);
+    transition: background 0.2s ease-in-out;
+}
+
+@media (max-width: 768px) {
+    .statsTable{
+        max-width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        margin: 0;
+    }
+    .statsTable .stat {
+        width: 100%;
+        margin-bottom: 12px;
+    }
+    .statsTable .stat table{
+        width: 100%;
+    }
+}

@@ -1,0 +1,26 @@
+.footer {
+    background-color: var(--comp-bg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 24px;
+    height: 68px;
+    margin-top: 40px;
+}
+
+.footer p{
+    color: var(--footer-text-color);
+    font-size: 18px;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .footer{
+    height: 56px;
+    padding: 6px 12px;
+  }
+
+  .footer p{
+    font-size: 14px;
+  }
+}

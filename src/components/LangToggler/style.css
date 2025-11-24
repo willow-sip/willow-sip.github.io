@@ -1,0 +1,13 @@
+.lang-toggler{
+}
+.lang-toggler button{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font: inherit;
+    color: var(--text-color);
+    cursor: pointer;
+}
+.lang-toggler button.active{
+    color: var(--footer-text-color);
+}
