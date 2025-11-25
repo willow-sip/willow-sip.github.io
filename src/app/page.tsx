@@ -18,7 +18,7 @@ export default function HomePage() {
   const { t } = useTranslation();
   const { theme } = useTheme();
 
-  const { data: posts = [], refetch, isLoading, isError } = useQuery({
+  const { data: posts = [], refetch, isLoading } = useQuery({
     queryKey: ['get-posts'],
     queryFn: async () => {
       const response = await tokenApi.get('/posts');
@@ -28,12 +28,10 @@ export default function HomePage() {
 
   return (
     <div className='app' data-theme={theme}>
-      {userAuth && user && <AddPost avatar={user?.profileImage} postCreated={refetch} />}
       <div className="main-page">
-        {userAuth && user && <Sidebar />}
+        {userAuth && user && <AddPost avatar={user?.profileImage} postCreated={refetch} />} 
         <div className="posts">
           {isLoading && <p>Loading posts...</p>}
-          {isError && <p>Could not load posts.</p>}
           <Suspense fallback={<p>Loading post...</p>}>
             {posts.map((post: PostType) => (
               <LazyPost
@@ -46,6 +44,7 @@ export default function HomePage() {
             ))}
           </Suspense>
         </div>
+        {userAuth && user && <Sidebar />}
       </div>
     </div>
   );

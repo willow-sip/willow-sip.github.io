@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTheme } from '@/context/ThemeContext';
 import { showNotification } from '@/components/notify';
 import { useTranslation } from 'react-i18next';
-import { Envelope, Pencil, UploadFile } from '@/svgs';
+import { Envelope, Important, Pencil, UploadFile } from '@/svgs';
 import { useMutation } from '@tanstack/react-query';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -29,11 +29,12 @@ const AddPostForm = ({ close, postCreated }: Props) => {
     const { t } = useTranslation();
 
     const addPostSchema = (t: (key: string) => string) => yup.object({
-        title: yup.string().required(t('inputPostTitle')),
-        description: yup.string().required(t('inputPostDesc')),
+        title: yup.string().required(t('inputPostTitle')).max(100, t('maxTitleLength')),
+        description: yup.string().required(t('inputPostDesc')).max(200, t("maxDescLength")),
     });
 
-    const { handleSubmit, register, reset, formState: { errors, isSubmitting } } = useForm<FormInput>({
+    const { handleSubmit, register, reset, formState: { errors, isSubmitting }, watch } = useForm<FormInput>({
+        mode: 'onChange',
         resolver: yupResolver(addPostSchema(t)),
         defaultValues: {
             title: '',
@@ -108,9 +109,17 @@ const AddPostForm = ({ close, postCreated }: Props) => {
                             data-testid="post-title"
                             id="postTitle"
                             type="text"
+                            className={errors.title ? 'error' : ''}
                             placeholder={t('postTitlePlaceholder')}
                             {...register('title')}
                         />
+                        <div className={"helper " + (errors.title ? 'error' : 'idle')}>
+                            <Important />
+                            <p>
+                                {errors.title ? t('lengthLimitSurpassed')
+                                : t('maxTitleLength', { max: 100 })}
+                            </p>
+                        </div>
                     </div>
 
                     <div className="form-group">
@@ -121,10 +130,18 @@ const AddPostForm = ({ close, postCreated }: Props) => {
                         <textarea
                             data-testid="description"
                             id="description"
+                            className={errors.description ? 'error' : 'idle'}
                             placeholder={t('descriptionPlaceholder')}
                             {...register('description')}
                             rows={4}
                         />
+                        <div className={"helper " + (errors.description ? 'error' : 'idle')}>
+                            <Important />
+                            <p>
+                                {errors.description ? t('lengthLimitSurpassed')
+                                : t('maxDescLength', { max: 200 })}
+                            </p>
+                        </div>
                     </div>
 
                     <div className="upload-area">

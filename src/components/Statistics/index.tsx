@@ -22,8 +22,6 @@ const Statistics = () => {
     const [activeTab, setActiveTab] = useState<'table' | 'chart'>('table');
     const [likes, setLikes] = useState<Like[] | null>(null);
     const [comments, setComments] = useState<Comment[] | null>(null);
-    const [location, setLocation] = useState<"profile" | "statistics">("statistics");
-    const router = useRouter();
     const { t } = useTranslation();
 
     const handleToggle = () => {
@@ -87,11 +85,7 @@ const Statistics = () => {
     }
 
     return (
-        <>
-            <div className="page-switch">
-                <button data-testid="profile-link" className={location === "profile" ? "active" : ""} onClick={() => { router.push('/profile'); setLocation("profile") }}>{t('profileLink')}</button>
-                <button data-testid="statistics-link" className={location === "statistics" ? "active" : ""} onClick={() => { router.push('/statistics'); setLocation("statistics") }}>{t('statsLink')}</button>
-            </div>
+        <div className='stats-page'>
             <div className="general-stats" data-theme={theme}>
                 {genStats.map((stat, index) => (
                     <div className="stat" key={index} data-testid="stat">
@@ -116,10 +110,12 @@ const Statistics = () => {
                     <p>{t('chartView')}</p>
                 </div>
 
-                {activeTab === 'table' && stats && <TableStats data-testid="table-stats" stats={stats} />}
-                {activeTab === 'chart' && stats && <ChartStats data-testid="chart-stats" stats={stats} />}
+                <div className="formated-stats">
+                    {activeTab === 'table' && stats && <TableStats data-testid="table-stats" stats={stats} />}
+                    {activeTab === 'chart' && stats && <ChartStats data-testid="chart-stats" stats={stats} />}
+                </div>
             </div>
-        </>
+        </div>
     );
 };
 

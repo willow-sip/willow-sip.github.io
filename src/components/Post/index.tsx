@@ -9,7 +9,8 @@ import { TFunction } from 'i18next';
 
 import {
     PostContainer, Author, Avatar, LoadingAvatar, AuthorInfo, AuthorName, PublishTime, PostImage, PostTitle, PostContent, PostButtons,
-    Button, Likes, Comments, CommentSection, AddComment, AddCommentHeader, CommentTextarea, AddCommentButton, Spinner, AnimatedHeart
+    Button, Likes, Comments, CommentSection, AddComment, AddCommentHeader, CommentTextarea, AddCommentButton, Spinner, AnimatedHeart,
+    AnimatedCommentSection
 } from './Post.styles';
 import { ArrowDown, ArrowUp, CommentSvg, LikeSvg, Pencil } from '@/svgs';
 import enableAuth from '../WithAuthAndTranslation';
@@ -34,6 +35,7 @@ interface PostState {
     addingComment: boolean;
     animateLike: boolean;
 }
+
 
 class Post extends Component<PostProps, PostState> {
     constructor(props: PostProps) {
@@ -66,16 +68,16 @@ class Post extends Component<PostProps, PostState> {
     }
 
     deleteComment(commentId?: number) {
-        
+
         this.setState((prev) => ({
-            comments: prev.comments?.filter((c) =>{
+            comments: prev.comments?.filter((c) => {
                 return c.id !== commentId;
-            } ),
+            }),
         }));
         showNotification(this.props.t('deleteComment'), 'success', 2000);
     }
 
-    calculatePublishTime = (): string => {
+    calculatePublishTime = (): { num: number, timeType: string } => {
         const now = new Date();
         const published = new Date(this.props.post.creationDate);;
         const diffMs = now.getTime() - published.getTime();
@@ -87,14 +89,64 @@ class Post extends Component<PostProps, PostState> {
 
         const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
 
-        if (seconds < 60) return rtf.format(-seconds, 'second');
-        if (minutes < 60) return rtf.format(-minutes, 'minute');
-        if (hours < 24) return rtf.format(-hours, 'hour');
-        if (days < 7) return rtf.format(-days, 'day');
-        if (days < 30) return rtf.format(-Math.floor(days / 7), 'week');
-        if (days < 365) return rtf.format(-Math.floor(days / 30), 'month');
-        return rtf.format(-Math.floor(days / 365), 'year');
+        if (seconds < 60) return { num: seconds, timeType: "second" };
+        if (minutes < 60) return { num: minutes, timeType: "minute" };
+        if (hours < 24) return { num: hours, timeType: "hour" };
+        if (days < 7) return { num: days, timeType: "day" };
+        if (days < 30) return { num: Math.floor(days / 7), timeType: "week" };
+        if (days < 365) return { num: Math.floor(days / 30), timeType: "month" };
+
+        return { num: Math.floor(days / 365), timeType: 'year' };
     };
+
+
+    mapEndings() {
+        let result = { likesEnding: "s", commentEnding: "s" };
+        const likesCount = this.state.likesCount;
+        const commentsCount = this.state.comments?.length || 0;
+
+        const lastLikes = likesCount % 10;
+        const lastTwoLikes = likesCount % 100;
+        const lastComments = commentsCount % 10;
+        const lastTwoComments = commentsCount % 100;
+
+        if (lastTwoLikes >= 11 && lastTwoLikes <= 14) {
+            result.likesEnding = "p2";
+        } else {
+            switch (lastLikes) {
+                case 1:
+                    result.likesEnding = "s";
+                    break;
+                case 2:
+                case 3:
+                case 4:
+                    result.likesEnding = "p1";
+                    break;
+                default:
+                    result.likesEnding = "p2";
+            }
+        }
+
+        if (lastTwoComments >= 11 && lastTwoComments <= 14) {
+            result.commentEnding = "p2";
+        } else {
+            switch (lastComments) {
+                case 1:
+                    result.commentEnding = "s";
+                    break;
+
+                case 2:
+                case 3:
+                case 4:
+                    result.commentEnding = "p1";
+                    break;
+                default:
+                    result.commentEnding = "p2";
+            }
+        }
+
+        return result;
+    }
 
     toggleShowComments = () => {
         this.setState(prevState => ({
@@ -222,6 +274,33 @@ class Post extends Component<PostProps, PostState> {
         const { profileImage, firstName, secondName } = this.state.author;
         const theme = useTheme.getState().theme;
 
+        const endings = this.mapEndings();
+        let likeEnding = "";
+        let commentEnding = "";
+
+        switch (endings.likesEnding) {
+            case "s":
+                likeEnding = "likesSingular";
+                break;
+            case "p1":
+                likeEnding = "likesPlural1";
+                break;
+            default:
+                likeEnding = "likesPlural2";
+        }
+        switch (endings.commentEnding) {
+            case "s":
+                commentEnding = "commentsSingular";
+                break;
+            case "p1":
+                commentEnding = "commentsPlural1";
+                break;
+            default:
+                commentEnding = "commentsPlural2";
+        }
+
+        const { num, timeType } = this.calculatePublishTime();
+
         return (
             <PostContainer theme={theme}>
                 {this.state.loading ? (
@@ -240,7 +319,7 @@ class Post extends Component<PostProps, PostState> {
                         />
                         <AuthorInfo>
                             <AuthorName data-testid="author-name">{firstName} {secondName}</AuthorName>
-                            <PublishTime>{this.calculatePublishTime()}</PublishTime>
+                            <PublishTime>{t(`time.${timeType}`, { count: num })}</PublishTime>
                         </AuthorInfo>
                     </Author>
                 )}
@@ -257,14 +336,14 @@ class Post extends Component<PostProps, PostState> {
                         >
                             <LikeSvg className={this.state.liked ? '' : 'outline'} />
                         </AnimatedHeart>
-                        <p>{this.state.likesCount} {t('likes')}</p>
+                        <p>{this.state.likesCount} {t(likeEnding)}</p>
                     </Likes>
                     <Comments>
                         <CommentSvg className="outline" />
                         <span className="comment-text">
                             {userAuth
                                 ? commentsCount !== undefined
-                                    ? `${commentsCount} ${t('commentsCount')}`
+                                    ? `${commentsCount} ${t(commentEnding)}`
                                     : t('loadingComments')
                                 : t('loginToSeeComments')}
                         </span>
@@ -280,43 +359,43 @@ class Post extends Component<PostProps, PostState> {
                     )}
                 </PostButtons>
 
-                {showComments && (
-                    <CommentSection>
-                        {comments?.map((comment) => (
-                            <Comment
-                                key={comment.id}
-                                id={comment.id}
-                                authorId={comment.authorId}
-                                text={comment.text}
-                                edit={this.editComment}
-                                deleteComm={this.deleteComment}
-                            />
-                        ))}
+                <AnimatedCommentSection height={showComments ? "1000px" : "0"}>
+                        <CommentSection >
+                            {comments?.map((comment) => (
+                                <Comment
+                                    key={comment.id}
+                                    id={comment.id}
+                                    authorId={comment.authorId}
+                                    text={comment.text}
+                                    edit={this.editComment}
+                                    deleteComm={this.deleteComment}
+                                />
+                            ))}
 
-                        <AddComment>
-                            <AddCommentHeader>
-                                <Pencil />
-                                <p>{t('addComment')}</p>
-                            </AddCommentHeader>
-                            <CommentTextarea
-                                data-testid="comment-textarea"
-                                name="commentText"
-                                id="commentText"
-                                placeholder={t('commentPlaceholder')}
-                                value={this.state.newComment}
-                                onChange={this.handleCommentChange}
-                            />
-                            <AddCommentButton
-                                data-testid="add-comment-button"
-                                onClick={this.handleAddComment}
-                                disabled={this.state.addingComment}
-                                adding={this.state.addingComment.toString()}
-                            >
-                                {this.state.addingComment ? t('addingComment') : t('addComment')}
-                            </AddCommentButton>
-                        </AddComment>
-                    </CommentSection>
-                )}
+                            <AddComment>
+                                <AddCommentHeader>
+                                    <Pencil />
+                                    <p>{t('addComment')}</p>
+                                </AddCommentHeader>
+                                <CommentTextarea
+                                    data-testid="comment-textarea"
+                                    name="commentText"
+                                    id="commentText"
+                                    placeholder={t('commentPlaceholder')}
+                                    value={this.state.newComment}
+                                    onChange={this.handleCommentChange}
+                                />
+                                <AddCommentButton
+                                    data-testid="add-comment-button"
+                                    onClick={this.handleAddComment}
+                                    disabled={this.state.addingComment}
+                                    adding={this.state.addingComment.toString()}
+                                >
+                                    {this.state.addingComment ? t('addingComment') : t('addComment')}
+                                </AddCommentButton>
+                            </AddComment>
+                        </CommentSection>
+                </AnimatedCommentSection>
             </PostContainer>
         );
     }

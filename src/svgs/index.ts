@@ -15,4 +15,5 @@ export {default as CommentSvg} from "./CommentSvg.svg";
 export {default as LikeSvg} from "./LikeSvg.svg";
 export {default as ArrowUp} from "./ArrowUp.svg";
 export {default as ArrowDown} from "./ArrowDown.svg";
-
+export {default as Like} from "./Like.svg";
+export {default as EyeClosed} from './EyeClosed.svg';

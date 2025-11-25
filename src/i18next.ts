@@ -2,6 +2,7 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
+
 const resources = {
   en: {
     translation: {
@@ -28,6 +29,7 @@ const resources = {
 
       profileLink: 'Profile Info',
       statsLink: 'Statistics',
+      mainLink: 'Back to main',
       percentStats: '% over last month',
       tableView: 'Table view',
       chartView: 'Chart view',
@@ -35,6 +37,9 @@ const resources = {
       signUpSuccess: 'Sign up successful, now sign in!',
       signInSuccess: 'Sign in successful!',
       invalidCredentials: 'Invalid email or password',
+      invalidEmail: 'Email is not valid',
+      invalidPassword: 'Password is not valid',
+      strongPassword: 'Your password is strong',
       userExists: 'User already exists.',
       fillAllFields: 'Not all required data filled.',
       fileSizeExceeded: "File size mustn't exceed 10MB",
@@ -58,13 +63,19 @@ const resources = {
       whatsHappening: "What's happening?",
       tellEveryone: 'Tell everyone',
 
-      likes: 'likes',
-      commentsCount: ' comments',
+      likesSingular: 'like',
+      likesPlural1: 'likes',
+      likesPlural2: 'likes',
+      commentsSingular: 'comment',
+      commentsPlural1: 'comments',
+      commentsPlural2: 'comments',
       loadingComments: 'Loading comments...',
       loginToSeeComments: 'You have to log in to see the comments',
       addComment: 'Add a comment',
       addingComment: 'Adding...',
       commentPlaceholder: 'Write description here...',
+      cancelEdit: "Cancel",
+      saveEdit: "Save",
 
       createNewPost: 'Create a new post',
       postTitle: 'Post Title',
@@ -89,13 +100,30 @@ const resources = {
       changeProfilePhoto: 'Change profile photo',
       username: 'Username',
       maxDescLength: 'Max 200 chars',
+      maxTitleLength: 'Max 100 chars',
+      lengthLimitSurpassed: 'You surpassed chars limit',
       saveProfile: 'Save Profile Changes',
+  
+      preferencies: "Preferencies",
+      actions: "Actions",
+      darkTheme: "Dark theme",
+      logout: 'Logout',
 
       sugPeople: 'Suggested people',
       loadSugPeople: 'Loading people...',
       sugGroups: 'Communities you might like',
       loadSugGroups: 'Loading groups...',
       members: 'members',
+
+      time: {
+        second: "{{count}} sec ago",
+        minute: "{{count}} min ago",
+        hour: "{{count}} hr ago",
+        day: "{{count}} d ago",
+        week: "{{count}} w ago",
+        month: "{{count}} mon ago",
+        year: "{{count}} yr ago"
+      }
     },
   },
   ru: {
@@ -123,6 +151,7 @@ const resources = {
 
       profileLink: 'Профиль пользователя',
       statsLink: 'Статистика',
+      mainLink: 'На главную',
       percentStats: '% по сравнению с предыдущим месяцем',
       tableView: 'Таблица',
       chartView: 'Графики',
@@ -130,6 +159,9 @@ const resources = {
       signUpSuccess: 'Регистрация успешна, теперь войдите!',
       signInSuccess: 'Вход выполнен успешно!',
       invalidCredentials: 'Неверная почта или пароль',
+      invalidEmail: 'Неверно введена электронная почта',
+      invalidPassword: 'Неверно введен пароль',
+      strongPassword: 'Вы ввели сильный пароль',
       userExists: 'Пользователь уже существует.',
       fillAllFields: 'Заполните все обязательные поля.',
       fileSizeExceeded: "Размер файла не должен превышать 10МБ",
@@ -153,12 +185,19 @@ const resources = {
       whatsHappening: "Что нового?",
       tellEveryone: 'Поделиться',
 
-      likes: 'лайков',
-      commentsCount: 'комментариев',
+      
+      likesSingular: 'лайк',
+      likesPlural1: 'лайка',
+      likesPlural2: 'лайков',
+      commentsSingular: 'комментарий',
+      commentsPlural1: 'комментария',
+      commentsPlural2: 'комментариев',
       loadingComments: 'Загрузка комментариев...',
       loginToSeeComments: 'Войдите, чтобы видеть комментарии',
       addComment: 'Добавить комментарий',
       addingComment: 'Добавление...',
+      cancelEdit: "Отменить",
+      saveEdit: "Сохранить",
       commentPlaceholder: 'Напишите описание здесь...',
 
       createNewPost: 'Создать новый пост',
@@ -183,13 +222,29 @@ const resources = {
       changeProfilePhoto: 'Изменить фото профиля',
       username: 'Имя пользователя',
       maxDescLength: 'Не более 200 символов',
+      maxTitleLength: 'Не более 100 символов',
+      lengthLimitSurpassed: 'Вы превысили лимит символов',
       saveProfile: 'Сохранить изменения',
+      preferencies: "Предпочтения",
+      actions: "Действия",
+      darkTheme: "Темная тема",
+      logout: 'Выйти',
 
       sugPeople: 'Вы можете быть знакомы',
       loadSugPeople: 'Загрузка аккаунтов...',
       sugGroups: 'Вам могут понравиться эти сообщества',
       loadSugGroups: 'Загрузка сообществ...',
       members: 'участников',
+      
+      time: {
+        second: "{{count}} сек назад",
+        minute: "{{count}} мин назад",
+        hour: "{{count}} ч назад",
+        day: "{{count}} дн назад",
+        week: "{{count}} нед назад",
+        month: "{{count}} мес назад",
+        year: "{{count}} г назад"
+      }
     },
   },
 };

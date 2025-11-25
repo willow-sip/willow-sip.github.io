@@ -41,7 +41,6 @@ const Profile = () => {
     const { user } = useSelector((state: RootState) => state.auth);
     const dispatch = useDispatch<AppDispatch>();
 
-    const [location, setLocation] = useState<"profile" | "statistics">("profile");
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [previewImage, setPreviewImage] = useState(user?.profileImage || './imgs/default-avatar.jpg');
     
@@ -49,6 +48,7 @@ const Profile = () => {
     const { t } = useTranslation();
 
     const { handleSubmit, register, reset, formState: { errors, isSubmitting } } = useForm<FormInput>({
+        mode: 'onChange',
         resolver: yupResolver(profileSchema(t)) as Resolver<FormInput>,
         defaultValues: {
             username: user?.username || '',
@@ -155,10 +155,6 @@ const Profile = () => {
 
     return (
         <>
-            <div className="page-switch">
-                <button data-testid="profile" className={location === "profile" ? "active" : ""} onClick={() => { router.push('/profile'); setLocation("profile") }}>{t('profileLink')}</button>
-                <button data-testid="statistics" className={location === "statistics" ? "active" : ""} onClick={() => { router.push('/statistics'); setLocation("statistics") }}>{t('statsLink')}</button>
-            </div>
             <div className="profile" data-theme={theme}>
                 <div className="edit-profile">
                     <h1>{t('editProfile')}</h1>
@@ -209,9 +205,16 @@ const Profile = () => {
                                 data-testid="email"
                                 type="email"
                                 id="email"
+                                className={errors.email ? 'error' : 'idle'}
                                 placeholder="email@domain.com"
                                 {...register('email')}
                             />
+                            {errors.email && (
+                                <div className="helper error">
+                                    <Important />
+                                    <p>{t("invalidEmail")}</p>
+                                </div>
+                            )}
                         </div>
 
                         <div className="form-group">
@@ -222,22 +225,26 @@ const Profile = () => {
                             <textarea
                                 data-testid="description"
                                 id="description"
+                                className={errors.description ? 'error' : 'idle'}
                                 placeholder={t('descriptionPlaceholder')}
                                 {...register('description')}
-                                maxLength={200}
                                 rows={4}
                             />
-                            <small className="char-count">
-                                <Important id="important-svg"/>
-                                <p>{t('maxDescLength')}</p>
-                            </small>
+                            <div className={"helper " + (errors.description ? 'error' : 'idle')}>
+                                <Important />
+                                <p>
+                                    {errors.description 
+                                        ? t('lengthLimitSurpassed') 
+                                        : t('maxDescLength', { max: 200 })}
+                                </p>
+                            </div>
                         </div>
 
                         <button data-testid="update-profile" type="submit" className="save-btn">{t('saveProfile')}</button>
                     </form>
                 </div>
                 <div className="preferences">
-                    <h1>Preferences</h1>
+                    <h1> {t('preferencies')} </h1>
                     <div className="theme-toggle">
                         <label className="switch">
                             <input
@@ -248,13 +255,13 @@ const Profile = () => {
                             />
                             <span className="slider" />
                         </label>
-                        <p>Dark theme</p>
+                        <p>{t("darkTheme")}</p>
                     </div>
-                    <h1>Actions</h1>
+                    <h1>{t("actions")}</h1>
                     <button className="logout-button" onClick={() => {
                         dispatch(logOut());
                         router.push('/');
-                    }}>Logout</button>
+                    }}>{t("logout")}</button>
                 </div>
             </div>
         </>

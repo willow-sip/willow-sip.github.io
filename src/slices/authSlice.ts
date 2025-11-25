@@ -76,9 +76,6 @@ export const restoreAuth = createAsyncThunk(
         const user: User = JSON.parse(savedUser);
         dispatch(setAuth({ user, expiresAt: exp }));
       } else {
-        localStorage.removeItem('currentUser');
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('expiresAt');
         dispatch(clearAuth());
       }
     }
@@ -88,9 +85,6 @@ export const restoreAuth = createAsyncThunk(
 export const logOut = createAsyncThunk(
   'auth/logout',
   async (_, { dispatch }) => {
-    localStorage.removeItem('currentUser');
-    localStorage.removeItem('expiresAt');
-    localStorage.removeItem('authToken');
     dispatch(clearAuth());
   }
 );
@@ -110,6 +104,9 @@ const authSlice = createSlice({
       state.userAuth = false;
       state.authMode = null;
       state.expiresAt = null;
+      localStorage.removeItem('currentUser');
+      localStorage.removeItem('expiresAt');
+      localStorage.removeItem('authToken');
     },
     updateAuthMode(state, action: PayloadAction<string | null>) {
       state.authMode = action.payload;

@@ -6,8 +6,8 @@ const spin = keyframes`
 `;
 
 export const PostContainer = styled.div<{ theme: string }>`
-  background-color: var(--comp-bg-color);
-  border: 2px solid var(--border-color);
+  background-color: var(--gray-900);
+  border: 2px solid var(--gray-400);
   border-bottom: none;
   color: var(--text-color);
   padding: 24px;
@@ -15,11 +15,11 @@ export const PostContainer = styled.div<{ theme: string }>`
 
   @media (max-width: 768px) {
     padding: 12px;
-    border-top: 2px solid var(--border-color);
+    border-top: 2px solid var(--gray-400);
     border-bottom: none;
     border-right: none;
     border-left: none;
-    background-color: var(--bg-color);
+    background-color: var(--gray-700);
   }
 `;
 
@@ -39,7 +39,7 @@ export const Avatar = styled.img`
 export const LoadingAvatar = styled.div`
   width: 48px;
   height: 48px;
-  background-color: var(--border-color);
+  background-color: var(--gray-400);
   border-radius: 50%;
 `;
 
@@ -60,7 +60,7 @@ export const AuthorName = styled.p`
 
 export const PublishTime = styled.small`
   margin-top: 2px;
-  color: var(--small-text-color);
+  color: var(--gray-100);
 `;
 
 export const PostImage = styled.img`
@@ -134,6 +134,12 @@ export const CommentSection = styled.div`
   margin-top: 16px;
 `;
 
+export const AnimatedCommentSection = styled.div<{ height: string }>`
+  overflow: hidden;
+  transition: max-height 1s ease;
+  max-height:  ${({ height }) => height};
+`;
+
 export const AddComment = styled.div`
   display: flex;
   flex-direction: column;
@@ -156,8 +162,8 @@ export const AddCommentHeader = styled.div`
 export const CommentTextarea = styled.textarea`
   width: 652px;
   height: 58px;
-  background-color: var(--bg-color);
-  border: 1px solid var(--border-color);
+  background-color: var(--gray-700);
+  border: 1px solid var(--gray-400);
   font-family: inherit;
   color: var(--text-color);
   resize: none;
@@ -171,15 +177,17 @@ export const AddCommentButton = styled.button<{ adding: string }>`
   width: 211px;
   height: 44px;
   color: var(--text-color);
-  padding: 12px 48px;
-  background-color: var(--footer-text-color);
+  padding: 0 48px;
+  line-height: 1;
+  background-color: var(--accent);
   border: none;
   cursor: pointer;
   align-self: flex-start;
-  transition: background-color 0.3s ease;
+  transition: 0.2s ease-in;
 
   &:hover {
-    background-color: rgba(var(--footer-text-color), 0.8);
+    background-color: var(--btn-hover);
+    transition: 0.2s ease-in;
   }
 
   &:disabled {
@@ -194,8 +202,8 @@ export const AddCommentButton = styled.button<{ adding: string }>`
 `;
 
 export const Spinner = styled.div`
-  border: 3px solid var(--border-color);
-  border-top: 3px solid var(--footer-text-color);
+  border: 3px solid var(--gray-400);
+  border-top: 3px solid var(--accent);
   border-radius: 50%;
   width: 20px;
   height: 20px;

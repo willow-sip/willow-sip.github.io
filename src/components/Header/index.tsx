@@ -40,7 +40,7 @@ const Header = () => {
         <header className="header" data-theme={theme}>
             <Image
                 className="logo"
-                src='/imgs/logo.png'
+                src={theme === "dark" ? '/imgs/logo.png' : '/imgs/logo-light-theme.png'}
                 width={96}
                 height={44}
                 alt="Sidekick-logo"
@@ -58,7 +58,7 @@ const Header = () => {
                             <div className="drawer-header">
                                 <Image
                                     className="drawer-logo"
-                                    src='/imgs/logo.png'
+                                    src={theme === "dark" ? '/imgs/logo.png' : '/imgs/logo-light-theme.png'}
                                     width={48}
                                     height={24}
                                     alt="Sidekick-logo"
@@ -72,7 +72,10 @@ const Header = () => {
                                             height={24}
                                             alt="User avatar"
                                         />
-                                        <button onClick={() => dispatch(logOut())}><Logout /></button>
+                                        <button onClick={() => {
+                                            router.push('/');
+                                            return dispatch(logOut());
+                                        }}><Logout /></button>
                                     </div>
                                 )}
                                 <button onClick={toggleTheme} className="theme-toggle">
@@ -102,7 +105,7 @@ const Header = () => {
                             <button onClick={() => router.push('/sign-up')}>{t('signUp')}</button>
                             <button onClick={() => router.push('/sign-in')}>{t('signIn')}</button>
                         </div>
-                        ) : (
+                    ) : (
                         <div className="user-info">
                             <button onClick={toggleTheme} className="theme-toggle">
                                 {theme === 'light' ? <Moon /> : <Sun />}
@@ -117,7 +120,10 @@ const Header = () => {
                                 />
                                 <p>{user?.firstName} {user?.secondName}</p>
                             </div>
-                            <button onClick={() => dispatch(logOut())}><Logout /></button>
+                            <button onClick={() => {
+                                router.push('/');
+                                return dispatch(logOut());
+                            }}><Logout /></button>
                         </div>
                     )
                 )

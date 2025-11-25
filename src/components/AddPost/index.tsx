@@ -3,15 +3,9 @@
 import { useState } from 'react';
 import { useTheme } from '@/context/ThemeContext';
 import { useTranslation } from 'react-i18next';
+import AddPostForm from '../AddPostForm';
 import Image from 'next/image';
 import './style.css';
-
-import dynamic from 'next/dynamic';
-
-const AddPostForm = dynamic(() => import('../AddPostForm'), {
-    loading: () => <p>Loading form to add a post...</p>,
-    ssr: false,
-});
 
 interface Props {
     avatar?: string;

@@ -1,13 +1,28 @@
 .error-page {
+    min-height: calc(100vh - 140px);
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     flex-direction: column;
+    margin: auto;
 }
 
 .error-page h1 {
     font-size: 60px;
+}
+
+.to-main{
+  background-color: var(--accent);
+  border: none;
+  outline: none;
+  font-family: inherit;
+  height: 44px;
+  width: 244px;
+  font-size: 16px;
+  margin: 40px auto;
+  color: var(--text-color);
+  cursor: pointer;
 }
 
 @media (max-width: 768px) {
@@ -17,5 +32,9 @@
     }
     .error-page h1 {
         font-size: 20px;
+    }
+    
+    .to-main{
+        margin: 40px 0;
     }
 }

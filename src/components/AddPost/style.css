@@ -2,14 +2,15 @@
   width: 700px;
   height: 88px;
   box-sizing: border-box;
-  background-color: var(--comp-bg-color);
+  background-color: var(--gray-900);
   color: var(--text-color);
-  border: 2px solid var(--border-color);
+  border: 2px solid var(--gray-400);
   margin: 24px auto;
   padding: 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  grid-column: 2/3;
 }
 
 #addPost div {
@@ -41,8 +42,7 @@
 }
 
 #addPost button:hover {
-  background-color: #ff8811c3;
-  color: #ffffffc3;
+  background-color: var(--btn-hover);
   transition: 0.2s ease-in;
 }
 
@@ -53,7 +53,7 @@
     margin-top: 24px;
     width: 100%;
     height: 60px;
-    border-top: 2px solid var(--border-color);
+    border-top: 2px solid var(--gray-400);
     border-bottom: none;
     border-right: none;
     border-left: none;

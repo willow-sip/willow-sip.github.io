@@ -1,15 +1,15 @@
 .footer {
-    background-color: var(--comp-bg-color);
+    background-color: var(--gray-900);
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 12px 24px;
     height: 68px;
-    margin-top: 40px;
+    margin-top: auto;
 }
 
 .footer p{
-    color: var(--footer-text-color);
+    color: var(--accent);
     font-size: 18px;
     margin: 0 auto;
 }

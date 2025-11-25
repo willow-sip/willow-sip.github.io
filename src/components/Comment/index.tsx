@@ -1,15 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Paper, Typography, TextField, Button, IconButton, Box, useTheme } from '@mui/material';
+import { Paper, Typography, TextField, Button, IconButton, Box } from '@mui/material';
 import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
-import { animated, useSpring, config } from '@react-spring/web';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { tokenApi } from '@/tokenApi';
+import { useTranslation } from 'react-i18next';
 
-const AnimatedPaper = animated(Paper);
 
 interface CommentProps {
     id: number;
@@ -23,12 +22,7 @@ const Comment = React.memo(({ id, authorId, text, edit, deleteComm }: CommentPro
     const [isEditing, setIsEditing] = useState(false);
     const [editText, setEditText] = useState(text);
     const { user } = useSelector((state: RootState) => state.auth);
-
-    const fadeInSpring = useSpring({
-        from: { opacity: 0, transform: 'translateY(-10px)' },
-        to: { opacity: 1, transform: 'translateY(0)' },
-        config: config.gentle,
-    });
+    const { t } = useTranslation();
 
     const { data: author } = useQuery({
         queryKey: ['get-comment-author', authorId],
@@ -89,7 +83,7 @@ const Comment = React.memo(({ id, authorId, text, edit, deleteComm }: CommentPro
     const handleDelete = () => { deleteMutation.mutate() };
 
     return (
-        <AnimatedPaper
+        <Paper
             elevation={0}
             sx={{
                 p: 0,
@@ -102,9 +96,8 @@ const Comment = React.memo(({ id, authorId, text, edit, deleteComm }: CommentPro
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 gap: 1,
-                color: 'var(--text-color)'
+                color: 'var(--text-color)',
             }}
-            style={fadeInSpring}
         >
             {isEditing ? (
                 <Box
@@ -125,23 +118,21 @@ const Comment = React.memo(({ id, authorId, text, edit, deleteComm }: CommentPro
                         onChange={(e) => setEditText(e.target.value)}
                         sx={{
                             width: '100%',
-                            height: 63,
-                            bgcolor: 'var(--bg-color)',
                             '& .MuiOutlinedInput-root': {
+                                padding: 0,
+                                border: 'none',
                                 '& fieldset': {
-                                    borderColor: 'var(--border-color)',
-                                    borderWidth: '1px',
-                                    borderRadius: 0,
-                                },
-                                '&.Mui-focused fieldset': {
-                                    borderColor: 'var(--border-color)',
-                                    borderWidth: '1px',
+                                    border: 'none',
                                 },
                                 '&:hover fieldset': {
-                                    borderColor: 'var(--border-color)',
+                                    border: 'none',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    border: 'none',
                                 },
                             },
                             '& .MuiInputBase-input': {
+                                padding: '8px 10px',
                                 color: 'var(--text-color)',
                             },
                         }}
@@ -159,16 +150,21 @@ const Comment = React.memo(({ id, authorId, text, edit, deleteComm }: CommentPro
                             sx={{
                                 flex: 1,
                                 height: 44,
-                                bgcolor: 'var(--footer-text-color)',
+                                bgcolor: 'var(--accent)',
                                 border: 'none',
                                 borderRadius: 0,
                                 color: 'var(--text-color)',
                                 textTransform: 'none',
                                 py: 1.5,
                                 px: 2,
+                                transition: '0.2s ease-in',
+                                '&:hover': {
+                                    bgcolor: 'var(--btn-hover)',
+                                    transition: '0.2s ease-in',
+                                }
                             }}
                         >
-                            Cancel
+                            {t("cancelEdit")}
                         </Button>
                         <Button
                             onClick={handleSaveEdit}
@@ -176,21 +172,26 @@ const Comment = React.memo(({ id, authorId, text, edit, deleteComm }: CommentPro
                             sx={{
                                 flex: 1,
                                 height: 44,
-                                bgcolor: 'var(--footer-text-color)',
+                                bgcolor: 'var(--accent)',
                                 border: 'none',
                                 borderRadius: 0,
                                 color: 'var(--text-color)',
                                 textTransform: 'none',
                                 py: 1.5,
                                 px: 2,
+                                transition: '0.2s ease-in',
+                                '&:hover': {
+                                    bgcolor: 'var(--btn-hover)',
+                                    transition: '0.2s ease-in',
+                                }
                             }}
                         >
-                            Save
+                            {t("saveEdit")}
                         </Button>
                     </Box>
                 </Box>
             ) : (
-                <Box sx={{ fontFamily: 'inherit', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                <Box sx={{ fontFamily: 'inherit', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography variant="body2" sx={{ wordBreak: 'break-word' }}>
                         <Typography component="span" fontWeight="bold" sx={{ mr: 0.5 }}>
                             {author?.firstName} {author?.secondName}:
@@ -219,7 +220,7 @@ const Comment = React.memo(({ id, authorId, text, edit, deleteComm }: CommentPro
                     </>
                 </Box>
             )}
-        </AnimatedPaper>
+        </Paper>
     );
 });
 

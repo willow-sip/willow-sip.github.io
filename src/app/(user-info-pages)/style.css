@@ -1,0 +1,51 @@
+.user-info-pages {
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+  padding: 0 24px;
+}
+
+.page-switch {
+  min-width: 211px;
+  height: 40px;
+  margin: 20px auto;
+  padding: 4px;
+  background-color: var(--gray-900);
+  display: flex;
+  gap: 8px;
+}
+
+.page-switch button,
+.to-main {
+  background-color: var(--gray-900);
+  border: none;
+  outline: none;
+  font-family: inherit;
+  min-width: 96px;
+  height: 32px;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+.page-switch .active {
+  background-color: var(--accent);
+}
+
+.to-main {
+  background-color: var(--accent);
+  height: 44px;
+  width: 244px;
+  font-size: 16px;
+  margin: 40px auto;
+}
+
+.to-main:hover {
+  background-color: var(--btn-hover);
+  transition: 0.2s ease-in;
+}
+
+@media(max-width: 768px) {
+  .to-main {
+    margin: 40px 0;
+  }
+}

@@ -9,5 +9,5 @@
     cursor: pointer;
 }
 .lang-toggler button.active{
-    color: var(--footer-text-color);
+    color: var(--accent);
 }

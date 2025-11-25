@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTheme } from '@/context/ThemeContext';
 import { showNotification } from '@/components/notify';
@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
 
 import styles from './style.module.css';
-import { Envelope, Eye } from '@/svgs';
+import { Envelope, Eye, Important, Like, EyeClosed } from '@/svgs';
 
 interface Mode {
   mode?: 'signup' | 'signin';
@@ -20,6 +20,7 @@ interface Mode {
 const INITIAL_VALUES = { email: '', password: '' };
 
 const AuthPage = ({ mode }: Mode) => {
+  const [showPassword, setShowPassword] = useState(false);
   const { authMode } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch<AppDispatch>();
   const { theme } = useTheme();
@@ -39,7 +40,7 @@ const AuthPage = ({ mode }: Mode) => {
       errors.email = t('invalidCredentials');
     }
 
-    if (!values.password) {
+    if (values.password === "") {
       errors.password = t('inputPassword');
     } else if (values.password.length < 6) {
       errors.password = t('passwordTooShort');
@@ -101,8 +102,8 @@ const AuthPage = ({ mode }: Mode) => {
         </p>
       </div>
 
-      <Formik initialValues={INITIAL_VALUES} onSubmit={handleSubmit}>
-        {({ isSubmitting }) => (
+      <Formik initialValues={INITIAL_VALUES} validate={validate} onSubmit={handleSubmit}> 
+        {({ isSubmitting, errors, touched, values }) => (
           <Form className={styles.authBox} noValidate>
             <label htmlFor="email" className={styles.label}>
               <Envelope />
@@ -114,21 +115,48 @@ const AuthPage = ({ mode }: Mode) => {
               name="email"
               id="email"
               placeholder={t('emailPlaceholder')}
-              className={styles.input}
+              className={errors.email ? " error" : "idle"}
             />
+            {errors.email && (
+              <div className="helper error">
+                <Important />
+                <p>{t("invalidEmail")}</p>
+              </div>
+            )}
 
-            <label htmlFor="password" className={styles.label}>
-              <Eye />
+            <label
+              htmlFor="password"
+              className={styles.label}
+              onClick={() => setShowPassword(prev => !prev)}
+              style={{ cursor: 'pointer' }}
+            >
+              {showPassword ? <EyeClosed /> : <Eye />}
               <p>{t('password')}</p>
             </label>
             <Field
               data-testid="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               id="password"
               placeholder={t('passwordPlaceholder')}
-              className={styles.input}
+              className={errors.password ? " error" : "idle"}
             />
+
+            {values.password.length > 0 && (
+              <div className={`helper ${errors.password ? 'error' : 'good'}`}>
+                {errors.password ? (
+                  <>
+                    <Important />
+                    <p>{t("invalidPassword")}</p>
+                  </>
+                ) : (
+                  <>
+                    <Like />
+                    <p>{t("strongPassword")}</p>
+                  </>
+                )}
+              </div>
+            )}
 
             <button
               data-testid="submit-button"

@@ -1,44 +1,28 @@
-.page-switch{
-  width: 211px;
-  height: 40px;
-  margin: 20px auto;
-  padding: 4px;
-  background-color: var(--comp-bg-color);
-  display: flex;
-  gap: 8px;
-}
-
-.page-switch button{
-  background-color: var(--comp-bg-color);
-  border: none;
-  outline: none;
-  font-family: inherit;
-  width: 96px;
-  height: 32px;
-  color: var(--text-color);
-  cursor: pointer;
-}
-
-.page-switch .active{
-  background-color: var(--footer-text-color);
+.stats-page{
+  width: 100%;
+  padding: 0 17%;
 }
 
 .general-stats{
-  width: 1200px;
+  width: 100%;
   margin: 0 auto;
   display: flex;
   gap: 32px;
 }
 
+.formated-stats{
+  width: 100%;
+}
+
 .general-stats .stat{
   width: 31.5%;
-  height: 172px;
-  background-color: var(--comp-bg-color);
+  min-height: 172px;
+  background-color: var(--gray-900);
   padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--gray-400);
 }
 
 .general-stats .stat p{
@@ -54,7 +38,7 @@
 .general-stats .stat small{
   font-size: 16px;
   font-weight: 500;
-  color: var(--small-text-color);
+  color: var(--gray-100);
 }
 
 .view{
@@ -63,7 +47,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 24px 0 24px max(0px, calc((100vw - 1200px) / 2));
+  margin: 24px 0 24px 0;
   font-size: 16px;
   font-weight: 500;
 }
@@ -88,7 +72,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--comp-bg-color);
+  background-color: var(--gray-900);
   -webkit-transition: .4s;
   transition: .4s;
   border-radius: 28px;
@@ -101,7 +85,8 @@
   width: 20px;
   left: 4px;
   bottom: 4px;
-  background-color: var(--footer-text-color);
+  background-color: var(--accent);
+  box-shadow: 0px 2px 2px 2px rgba(0, 0, 0, 0.16);
   -webkit-transition: .4s;
   transition: .4s;
   border-radius: 50%;
@@ -116,7 +101,7 @@ input:checked + .slider:before {
 @media (max-width: 768px) {
   .general-stats{
     flex-direction: column;
-    padding: 0 12px;
+    padding-right: 12px;
     max-width: 100%;
   }
   .general-stats .stat{
@@ -124,5 +109,8 @@ input:checked + .slider:before {
   }
   .stats{
     padding: 0 12px;
+  }
+  .stats-page{
+    padding: 0;
   }
 }

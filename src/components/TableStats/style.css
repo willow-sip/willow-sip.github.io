@@ -1,15 +1,15 @@
 .statsTable {
     display: flex;
-    width: 1200px;
+    width: 100%;
     justify-content: space-between;
     margin: 0 auto;
+    gap: 24px;
 }
 
 .statsTable .stat {
-    width: 575px;
+    width: 50%;
     display: flex;
     flex-direction: column;
-    gap: 24px;
 }
 
 .stat h3 {
@@ -23,7 +23,7 @@ table {
     padding: 24px;
     width: 100%;
     border-collapse: collapse;
-    background-color: var(--comp-bg-color);
+    background-color: var(--gray-900);
     color: var(--text-color);
     font-family: inherit;
     font-size: 16px;
@@ -32,7 +32,7 @@ table {
 
 
 thead tr{
-    color: var(--small-text-color);
+    color: var(--gray-100);
     font-size: 16px;
     font-weight: 600;
     border: none;
@@ -44,7 +44,7 @@ tr {
     line-height: 1.5;
     color: var(--text-color);
     cursor: context-menu;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--gray-400);
     height: 48px;
 }
 
@@ -60,13 +60,13 @@ td:last-child {
 }
 
 tr:hover {
-    background-color: var(--border-color);
-    transition: background 0.2s ease-in-out;
+    background-color: var(--gray-400);
+    transition: 0.2s ease-in;
 }
 
 @media (max-width: 768px) {
     .statsTable{
-        max-width: 100%;
+        width: 100%;
         flex-direction: column;
         align-items: flex-start;
         margin: 0;
