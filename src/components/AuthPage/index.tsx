@@ -161,7 +161,6 @@ const AuthPage = ({ mode }: Mode) => {
             <button
               data-testid="submit-button"
               type="submit"
-              disabled={isSubmitting}
               className={styles.button}
             >
               {authMode === 'signup' ? t('signUp') : t('signIn')}

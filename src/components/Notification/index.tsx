@@ -54,11 +54,6 @@ const Notification = ({ message, type, isVisible = false, close, autoHide }: Pro
     const notificationElement = (
         <div data-testid="notification" className={`${styles.notification} ${typeClass} ${animationClass}`}>
             <div className={styles.notificationContent}>
-                <span className={styles.notificationIcon}>
-                    {type === 'success' && <SuccessCheck />}
-                    {type === 'error' && <Cross />}
-                    {type === 'warning' && <Warning />}
-                </span>
                 <p className={styles.notificationMessage}>{message}</p>
                 <button
                     data-testid="close-button"

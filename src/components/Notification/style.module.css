@@ -1,7 +1,6 @@
 .notification {
   width: 100%;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   opacity: 0;
   transform: translateY(20px);
 }
@@ -31,21 +30,23 @@
 .notificationContent {
   display: flex;
   align-items: center;
-  padding: 16px;
   color: white;
   border-radius: 8px;
+  padding: 24px;
 }
 
 .success .notificationContent {
-  background: #4CAF50;
+  background: #FF8811CC;
 }
 
 .error .notificationContent {
-  background: #F44336;
+  background: #FF554ACC;
+;
 }
 
 .warning .notificationContent {
-  background: #FF9800;
+  background: #FFC14A;
+  color: black;
 }
 
 .notificationIcon {
