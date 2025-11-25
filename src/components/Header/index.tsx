@@ -39,6 +39,8 @@ const Header = () => {
     return (
         <header className="header" data-theme={theme}>
             <Image
+                onClick={() => { router.push('/')}}
+                style={{cursor: 'pointer'}}
                 className="logo"
                 src={theme === "dark" ? '/imgs/logo.png' : '/imgs/logo-light-theme.png'}
                 width={96}
@@ -57,6 +59,8 @@ const Header = () => {
                         <div className={`drawer ${drawerOpen ? 'open' : ''}`}>
                             <div className="drawer-header">
                                 <Image
+                                    onClick={() => { router.push('/')}}
+                                    style={{cursor: 'pointer'}}
                                     className="drawer-logo"
                                     src={theme === "dark" ? '/imgs/logo.png' : '/imgs/logo-light-theme.png'}
                                     width={48}

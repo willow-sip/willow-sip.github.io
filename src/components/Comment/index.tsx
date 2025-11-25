@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { tokenApi } from '@/tokenApi';
 import { useTranslation } from 'react-i18next';
+import { Important } from '@/svgs';
 
 
 interface CommentProps {
@@ -21,6 +22,8 @@ interface CommentProps {
 const Comment = React.memo(({ id, authorId, text, edit, deleteComm }: CommentProps) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editText, setEditText] = useState(text);
+    const [focused, setFocused] = useState(false);
+    const [editLength, setEditLength] = useState(text.length);
     const { user } = useSelector((state: RootState) => state.auth);
     const { t } = useTranslation();
 
@@ -115,7 +118,12 @@ const Comment = React.memo(({ id, authorId, text, edit, deleteComm }: CommentPro
                         maxRows={4}
                         size="small"
                         value={editText}
-                        onChange={(e) => setEditText(e.target.value)}
+                        onChange={(e) => {
+                            setEditText(e.target.value);
+                            setEditLength(e.target.value.length)
+                        }}
+                        onFocus={() => setFocused(true)}
+                        onBlur={() => setFocused(false)}
                         sx={{
                             width: '100%',
                             '& .MuiOutlinedInput-root': {
@@ -137,6 +145,16 @@ const Comment = React.memo(({ id, authorId, text, edit, deleteComm }: CommentPro
                             },
                         }}
                     />
+                    {editLength > 0 && (
+                        <div className={`helper ${editLength > 200 ? 'error' : (focused ? 'idle' : '')}`}>
+                            <Important />
+                            <p>
+                                {editLength > 200
+                                    ? t('lengthLimitSurpassed')
+                                    : t('maxDescLength')}
+                            </p>
+                        </div>
+                    )}
 
                     <Box
                         sx={{
@@ -168,7 +186,7 @@ const Comment = React.memo(({ id, authorId, text, edit, deleteComm }: CommentPro
                         </Button>
                         <Button
                             onClick={handleSaveEdit}
-                            disabled={!editText.trim()}
+                            disabled={!editText.trim() || editLength > 200}
                             sx={{
                                 flex: 1,
                                 height: 44,

@@ -26,6 +26,8 @@ const AddPostForm = ({ close, postCreated }: Props) => {
     const { theme } = useTheme();
 
     const [file, setFile] = useState<File | null>(null);
+    const [focusedTitle, setFocusedTitle] = useState(false);
+    const [focusedDesc, setFocusedDesc] = useState(false);
     const { t } = useTranslation();
 
     const addPostSchema = (t: (key: string) => string) => yup.object({
@@ -112,8 +114,10 @@ const AddPostForm = ({ close, postCreated }: Props) => {
                             className={errors.title ? 'error' : ''}
                             placeholder={t('postTitlePlaceholder')}
                             {...register('title')}
+                            onFocus={() => setFocusedTitle(true)}
+                            onBlur={() => setFocusedTitle(false)}
                         />
-                        <div className={"helper " + (errors.title ? 'error' : 'idle')}>
+                        <div className={"helper " + (errors.title ? 'error' : (focusedTitle ? 'idle' : ''))}>
                             <Important />
                             <p>
                                 {errors.title ? t('lengthLimitSurpassed')
@@ -134,8 +138,10 @@ const AddPostForm = ({ close, postCreated }: Props) => {
                             placeholder={t('descriptionPlaceholder')}
                             {...register('description')}
                             rows={4}
+                            onFocus={() => setFocusedDesc(true)}
+                            onBlur={() => setFocusedDesc(false)}
                         />
-                        <div className={"helper " + (errors.description ? 'error' : 'idle')}>
+                        <div className={"helper " + (errors.description ? 'error' : (focusedDesc ? 'idle' : ''))}>
                             <Important />
                             <p>
                                 {errors.description ? t('lengthLimitSurpassed')

@@ -19,7 +19,6 @@ export default function NotFound() {
         alt="Image of error 404"
       />
       <h1>{t('notFound')}</h1>
-      <button className="to-main" onClick={() => { router.push('/') }}>{t('mainLink')}</button>
     </div>
   );
 }

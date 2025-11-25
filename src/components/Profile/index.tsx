@@ -39,6 +39,7 @@ const profileSchema = (t: (key: string) => string) => yup.object({
 const Profile = () => {
     const { theme, toggleTheme } = useTheme();
     const { user } = useSelector((state: RootState) => state.auth);
+    const [focused, setFocused] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
 
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -229,8 +230,10 @@ const Profile = () => {
                                 placeholder={t('descriptionPlaceholder')}
                                 {...register('description')}
                                 rows={4}
+                                onFocus={() => setFocused(true)}
+                                onBlur={() => setFocused(false)}
                             />
-                            <div className={"helper " + (errors.description ? 'error' : 'idle')}>
+                            <div className={"helper " + (errors.description ? 'error' : (focused ? 'idle' : ''))}>
                                 <Important />
                                 <p>
                                     {errors.description 

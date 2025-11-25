@@ -19,7 +19,6 @@ export default function Unauthorized() {
         alt="Image of error 401"
       />
       <h1>{t('oops')}<br />{t('smthWentWrong')}</h1>
-      <button className="to-main" onClick={() => { router.push('/') }}>{t('mainLink')}</button>
     </div>
   );
 }

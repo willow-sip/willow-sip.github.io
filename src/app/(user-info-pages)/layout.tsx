@@ -16,10 +16,8 @@ export default function UserInfoLayout({children}: {children: React.ReactNode}) 
             <div className="page-switch">
                 <button data-testid="profile" className={location === "profile" ? "active" : ""} onClick={() => { router.push('/profile'); setLocation("profile") }}>{t('profileLink')}</button>
                 <button data-testid="statistics" className={location === "statistics" ? "active" : ""} onClick={() => { router.push('/statistics'); setLocation("statistics") }}>{t('statsLink')}</button>
-                
             </div>
             {children}
-            <button className="to-main" onClick={() => { router.push('/') }}>{t('mainLink')}</button>
         </div>
     );
 }

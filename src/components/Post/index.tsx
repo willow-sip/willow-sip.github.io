@@ -12,7 +12,7 @@ import {
     Button, Likes, Comments, CommentSection, AddComment, AddCommentHeader, CommentTextarea, AddCommentButton, Spinner, AnimatedHeart,
     AnimatedCommentSection
 } from './Post.styles';
-import { ArrowDown, ArrowUp, CommentSvg, LikeSvg, Pencil } from '@/svgs';
+import { ArrowDown, ArrowUp, CommentSvg, Important, LikeSvg, Pencil } from '@/svgs';
 import enableAuth from '../WithAuthAndTranslation';
 import { tokenApi } from '@/tokenApi';
 
@@ -31,9 +31,11 @@ interface PostState {
     liked: boolean;
     likesCount: number;
     newComment: string;
+    focused: boolean;
     loading: boolean;
     addingComment: boolean;
     animateLike: boolean;
+    commentLength: number;
 }
 
 
@@ -50,6 +52,8 @@ class Post extends Component<PostProps, PostState> {
             liked: false,
             likesCount: props.post.likesCount,
             newComment: '',
+            commentLength: 0,
+            focused: false,
             loading: true,
             addingComment: false,
             animateLike: false,
@@ -155,7 +159,7 @@ class Post extends Component<PostProps, PostState> {
     };
 
     handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        this.setState({ newComment: e.target.value });
+        this.setState({ newComment: e.target.value, commentLength: e.target.value.length });
     };
 
     handleAddComment = () => {
@@ -190,6 +194,7 @@ class Post extends Component<PostProps, PostState> {
                             ? [...prevState.comments, fullComment]
                             : [fullComment],
                         newComment: '',
+                        commentLength: 0,
                         addingComment: false,
                     }));
                     showNotification('Comment updated!', 'success', 2000);
@@ -360,41 +365,53 @@ class Post extends Component<PostProps, PostState> {
                 </PostButtons>
 
                 <AnimatedCommentSection height={showComments ? "1000px" : "0"}>
-                        <CommentSection >
-                            {comments?.map((comment) => (
-                                <Comment
-                                    key={comment.id}
-                                    id={comment.id}
-                                    authorId={comment.authorId}
-                                    text={comment.text}
-                                    edit={this.editComment}
-                                    deleteComm={this.deleteComment}
-                                />
-                            ))}
+                    <CommentSection >
+                        {comments?.map((comment) => (
+                            <Comment
+                                key={comment.id}
+                                id={comment.id}
+                                authorId={comment.authorId}
+                                text={comment.text}
+                                edit={this.editComment}
+                                deleteComm={this.deleteComment}
+                            />
+                        ))}
 
-                            <AddComment>
-                                <AddCommentHeader>
-                                    <Pencil />
-                                    <p>{t('addComment')}</p>
-                                </AddCommentHeader>
-                                <CommentTextarea
-                                    data-testid="comment-textarea"
-                                    name="commentText"
-                                    id="commentText"
-                                    placeholder={t('commentPlaceholder')}
-                                    value={this.state.newComment}
-                                    onChange={this.handleCommentChange}
-                                />
-                                <AddCommentButton
-                                    data-testid="add-comment-button"
-                                    onClick={this.handleAddComment}
-                                    disabled={this.state.addingComment}
-                                    adding={this.state.addingComment.toString()}
-                                >
-                                    {this.state.addingComment ? t('addingComment') : t('addComment')}
-                                </AddCommentButton>
-                            </AddComment>
-                        </CommentSection>
+                        <AddComment>
+                            <AddCommentHeader>
+                                <Pencil />
+                                <p>{t('addComment')}</p>
+                            </AddCommentHeader>
+                            <CommentTextarea
+                                data-testid="comment-textarea"
+                                name="commentText"
+                                id="commentText"
+                                placeholder={t('commentPlaceholder')}
+                                value={this.state.newComment}
+                                onChange={this.handleCommentChange}
+                                onFocus={() => this.setState({ focused: true })}
+                                onBlur={() => this.setState({ focused: false })}
+                            />
+                            {this.state.commentLength > 0 && (
+                                <div className={`helper ${this.state.commentLength > 200 ? 'error' : (this.state.focused ? 'idle' : '')}`}>
+                                    <Important />
+                                    <p>
+                                        {this.state.commentLength > 200
+                                            ? t('lengthLimitSurpassed')
+                                            : t('maxDescLength')}
+                                    </p>
+                                </div>
+                            )}
+                            <AddCommentButton
+                                data-testid="add-comment-button"
+                                onClick={this.handleAddComment}
+                                disabled={this.state.addingComment || this.state.commentLength > 200}
+                                adding={this.state.addingComment.toString()}
+                            >
+                                {this.state.addingComment ? t('addingComment') : t('addComment')}
+                            </AddCommentButton>
+                        </AddComment>
+                    </CommentSection>
                 </AnimatedCommentSection>
             </PostContainer>
         );

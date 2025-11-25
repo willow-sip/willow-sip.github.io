@@ -67,7 +67,7 @@ body {
 
 .main-page {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-columns: 1fr 750px 1fr;
   grid-template-rows: 1fr;
 }
 
@@ -127,10 +127,10 @@ input.error, textarea.error{
   border: 1px solid var(--error) !important;
 }
 .helper{
-  display: flex;
+  display: none;
   align-items: center;
   gap: 8px;
-  margin: 8px 0;
+  margin: 2px 0;
   height: 25px;
   font-size: 13px;
 }
@@ -147,12 +147,15 @@ input.error, textarea.error{
 }
 
 .helper.error{
+  display: flex;
   color: var(--error) !important;
 }
 .helper.idle{
+  display: flex;
   color: var(--idle-small-text) !important;
 }
 .helper.good{
+  display: flex;
   color: var(--accent) !important;
 }
 
