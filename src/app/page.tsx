@@ -28,8 +28,8 @@ export default function HomePage() {
 
   return (
     <div className='app' data-theme={theme}>
+      {userAuth && user && <AddPost avatar={user?.profileImage} postCreated={refetch} />} 
       <div className="main-page">
-        {userAuth && user && <AddPost avatar={user?.profileImage} postCreated={refetch} />} 
         <div className="posts">
           {isLoading && <p>Loading posts...</p>}
           <Suspense fallback={<p>Loading post...</p>}>
@@ -43,8 +43,8 @@ export default function HomePage() {
               />
             ))}
           </Suspense>
-        </div>
         {userAuth && user && <Sidebar />}
+        </div>
       </div>
     </div>
   );

@@ -66,16 +66,17 @@ body {
 }
 
 .main-page {
-  display: grid;
-  grid-template-columns: 1fr 750px 1fr;
-  grid-template-rows: 1fr;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .posts {
-  grid-column: 2 / 3;
   margin: 0 auto;
   width: 700px;
+  justify-self: end;
   margin-bottom: 40px;
+  position: relative;
 }
 
 svg path {

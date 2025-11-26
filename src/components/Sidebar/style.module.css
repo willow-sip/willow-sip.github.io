@@ -1,10 +1,12 @@
 .sidebar {
     width: 325px;
     min-width: 300px;
-    grid-column: 3/4;
-    margin: 24px 0 0 24px;
+    margin: 24px 0 0 40px;
     justify-self: start;
-    align-self: start;grid-row: 1 / span 2;
+    align-self: start;
+    position: absolute;
+    top: -136px;
+    left: 700px;
 }
 
 .sidebar h4{
