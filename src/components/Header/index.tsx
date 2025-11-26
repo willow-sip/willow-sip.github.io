@@ -28,6 +28,10 @@ const Header = () => {
     const [isMobile, setIsMobile] = useState<boolean>(false);
 
     useEffect(() => {
+        setDrawerOpen(false);
+    }, [pathname]);
+
+    useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth <= 768);
         handleResize();
         window.addEventListener('resize', handleResize);

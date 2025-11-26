@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
 
 import styles from './style.module.css';
-import { Envelope, Eye, Important, Like, EyeClosed } from '@/svgs';
+import { Envelope, Eye, Important, Like, EyeClosed, Keyboard } from '@/svgs';
 
 interface Mode {
   mode?: 'signup' | 'signin';
@@ -44,6 +44,8 @@ const AuthPage = ({ mode }: Mode) => {
       errors.password = t('inputPassword');
     } else if (values.password.length < 6) {
       errors.password = t('passwordTooShort');
+    } else if (values.password.length > 20){
+      errors.password = t('invalidPassword');
     }
 
     return errors;
@@ -102,7 +104,7 @@ const AuthPage = ({ mode }: Mode) => {
         </p>
       </div>
 
-      <Formik initialValues={INITIAL_VALUES} validate={validate} onSubmit={handleSubmit}> 
+      <Formik initialValues={INITIAL_VALUES} validate={validate} onSubmit={handleSubmit}>
         {({ isSubmitting, errors, touched, values }) => (
           <Form className={styles.authBox} noValidate>
             <label htmlFor="email" className={styles.label}>
@@ -124,23 +126,27 @@ const AuthPage = ({ mode }: Mode) => {
               </div>
             )}
 
-            <label
-              htmlFor="password"
-              className={styles.label}
-              onClick={() => setShowPassword(prev => !prev)}
-              style={{ cursor: 'pointer' }}
-            >
-              {showPassword ? <EyeClosed /> : <Eye />}
+            <label htmlFor="password" className={styles.label}>
+              <Keyboard />
               <p>{t('password')}</p>
             </label>
-            <Field
-              data-testid="password"
-              type={showPassword ? "text" : "password"}
-              name="password"
-              id="password"
-              placeholder={t('passwordPlaceholder')}
-              className={errors.password ? " error" : "idle"}
-            />
+            <div className={styles.passwordWrapper}>
+              <Field
+                data-testid="password"
+                type={showPassword ? "text" : "password"}
+                name="password"
+                id="password"
+                placeholder={t('passwordPlaceholder')}
+                className={`${errors.password ? "error" : "idle"} ${styles.passwordInput}`}
+              />
+              <button
+                type="button"
+                className={`${errors.password ? "error" : ""} ${styles.eyeButton}`}
+                onClick={() => setShowPassword(prev => !prev)}
+              >
+                {showPassword ? <EyeClosed /> : <Eye />}
+              </button>
+            </div>
 
             {values.password.length > 0 && (
               <div className={`helper ${errors.password ? 'error' : 'good'}`}>
