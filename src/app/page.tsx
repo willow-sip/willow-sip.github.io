@@ -16,7 +16,6 @@ const LazyPost = React.lazy(() => import('@/components/Post'));
 export default function HomePage() {
   const { user, userAuth } = useSelector((state: RootState) => state.auth);
   const { t } = useTranslation();
-  const { theme } = useTheme();
 
   const { data: posts = [], refetch, isLoading } = useQuery({
     queryKey: ['get-posts'],
@@ -27,7 +26,7 @@ export default function HomePage() {
   });
 
   return (
-    <div className='app' data-theme={theme}>
+    <>
       {userAuth && user && <AddPost avatar={user?.profileImage} postCreated={refetch} />} 
       <div className="main-page">
         <div className="posts">
@@ -46,6 +45,6 @@ export default function HomePage() {
         {userAuth && user && <Sidebar />}
         </div>
       </div>
-    </div>
+    </>
   );
 }

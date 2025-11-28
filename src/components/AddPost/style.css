@@ -69,3 +69,23 @@
     padding: 8px 24px;
   }
 }
+
+@media(max-width: 360px) {
+
+  #addPost p,
+  #addPost div p,
+  #addPost button {
+    font-size: 11px;
+  }
+
+  #addPost>div {
+    min-width: 150px;
+  }
+
+  #addPost button {
+    width: 120px;
+    height: 30px;
+    padding: 4px 12px;
+
+  }
+}

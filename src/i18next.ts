@@ -123,7 +123,11 @@ const resources = {
         week: "{{count}} w ago",
         month: "{{count}} mon ago",
         year: "{{count}} yr ago"
-      }
+      },
+
+      totalViews: "Total views",
+      totalLikes: "Total likes",
+      totalComments: "Total comments",
     },
   },
   ru: {
@@ -149,7 +153,7 @@ const resources = {
       signInLink: 'Войти',
       signUpLink: 'Зарегистрироваться',
 
-      profileLink: 'Профиль пользователя',
+      profileLink: 'Профиль',
       statsLink: 'Статистика',
       mainLink: 'На главную',
       percentStats: '% по сравнению с предыдущим месяцем',
@@ -184,7 +188,6 @@ const resources = {
 
       whatsHappening: "Что нового?",
       tellEveryone: 'Поделиться',
-
       
       likesSingular: 'лайк',
       likesPlural1: 'лайка',
@@ -244,7 +247,11 @@ const resources = {
         week: "{{count}} нед назад",
         month: "{{count}} мес назад",
         year: "{{count}} г назад"
-      }
+      },
+
+      totalViews: "Всего просмотров",
+      totalLikes: "Всего лайков",
+      totalComments: "Всего комментариев",
     },
   },
 };

@@ -89,7 +89,8 @@ const Statistics = () => {
             <div className="general-stats" data-theme={theme}>
                 {genStats.map((stat, index) => (
                     <div className="stat" key={index} data-testid="stat">
-                        <p>{stat.title}</p>
+                        <p>{stat.title.includes("views") ? t("totalViews") :
+                            (stat.title.includes("likes") ? t("totalLikes") : t("totalComments"))}</p>
                         <h1>{stat.stat}</h1>
                         <small>{stat.percent >= 0 ? `+${stat.percent}` : `${stat.percent}`}{t('percentStats')}</small>
                     </div>

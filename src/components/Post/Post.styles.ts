@@ -98,6 +98,7 @@ export const PostButtons = styled.div`
   @media (max-width: 768px) {
     width: 100%;
     font-size: 12px;
+    gap: 8px;
   }
 `;
 
@@ -117,7 +118,9 @@ export const Likes = styled.div`
   justify-content: flex-start;
   gap: 8px;
   height: 24px;
-  min-width: 90px;
+  @media (max-width: 768px) {
+    min-width: 60px;
+  }
 `;
 
 export const Comments = styled.div`
