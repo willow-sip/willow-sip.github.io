@@ -3,12 +3,9 @@
 import './401/style.css';
 import { useTranslation } from 'react-i18next';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 
 export default function NotFound() {
   const { t } = useTranslation();
-  const router = useRouter();
-
   return (
     <div className="error-page">
       <Image

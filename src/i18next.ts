@@ -59,6 +59,8 @@ const resources = {
       updatedProfile: 'Profile updated successfully',
       updateComment: 'Comment updated',
       deleteComment: 'Comment deleted',
+      createComment: 'Comment created',
+      networkError: 'Network error',
 
       whatsHappening: "What's happening?",
       tellEveryone: 'Tell everyone',
@@ -185,6 +187,8 @@ const resources = {
       updatedProfile: 'Профиль обновлен успешно',
       updateComment: 'Комментарий обновлен',
       deleteComment: 'Комментарий удален',
+      createComment: 'Комментарий создан',
+      networkError: 'Не удалось выполнить',
 
       whatsHappening: "Что нового?",
       tellEveryone: 'Поделиться',

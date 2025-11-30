@@ -4,17 +4,13 @@ import { Provider } from 'react-redux';
 import { store } from '@/store';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { MockProvider } from '@/context/MockProvider'
-import { useTheme } from '@/context/ThemeContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState, useEffect } from 'react';
-import { AuthProvider } from '@/context/AuthProvider';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 import i18n from '@/i18next';
+import { AuthProvider } from '@/context/AuthProvider';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
-  const { theme } = useTheme();
 
   useEffect(() => {
     const updateHtmlLang = () => {
@@ -34,12 +30,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <QueryClientProvider client={queryClient}>
         <ErrorBoundary>
           <MockProvider>
-            <div className="app" data-theme={theme}>
-              <Header />
-              <AuthProvider />
-              {children}
-              <Footer />
-            </div>
+            <AuthProvider />
+            {children}
           </MockProvider>
         </ErrorBoundary>
       </QueryClientProvider>

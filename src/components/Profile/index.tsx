@@ -16,6 +16,7 @@ import './style.css';
 import { Envelope, Important, Pencil, Person } from '@/svgs';
 import { tokenApi } from '@/tokenApi';
 import Image from 'next/image';
+import { Button } from '@mui/material';
 
 interface FormInput {
     username: string;
@@ -44,7 +45,7 @@ const Profile = () => {
 
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [previewImage, setPreviewImage] = useState(user?.profileImage || './imgs/default-avatar.jpg');
-    
+
     const router = useRouter();
     const { t } = useTranslation();
 
@@ -104,7 +105,7 @@ const Profile = () => {
                     }
                 }
             `;
-            
+
             const variables = { input: data };
 
             try {
@@ -197,7 +198,7 @@ const Profile = () => {
                             />
                         </div>
 
-                        <div className="form-group">                            
+                        <div className="form-group">
                             <label htmlFor="email">
                                 <Envelope />
                                 <p>{t('email')}</p>
@@ -236,18 +237,43 @@ const Profile = () => {
                             <div className={"helper " + (errors.description ? 'error' : (focused ? 'idle' : ''))}>
                                 <Important />
                                 <p>
-                                    {errors.description 
-                                        ? t('lengthLimitSurpassed') 
+                                    {errors.description
+                                        ? t('lengthLimitSurpassed')
                                         : t('maxDescLength', { max: 200 })}
                                 </p>
                             </div>
                         </div>
-
-                        <button data-testid="update-profile" type="submit" className="save-btn">{t('saveProfile')}</button>
+                        <Button
+                            data-testid="update-profile"
+                            type="submit"
+                            sx={{
+                                height: 44,
+                                width: 244,
+                                bgcolor: 'var(--accent)',
+                                color: 'var(--text-color)',
+                                border: 'none',
+                                padding: '12px 48px',
+                                borderRadius: 0,
+                                textTransform: 'none',
+                                py: 1.5,
+                                px: 2,
+                                marginBottom: 20,
+                                fontSize: 14,
+                                fontWeight: 400,
+                                alignSelf: 'flex-start',
+                                transition: '0.2s ease-in',
+                                '&:hover': {
+                                    bgcolor: 'var(--btn-hover)',
+                                    transition: '0.2s ease-in',
+                                }
+                            }}
+                        >
+                            {t("saveProfile")}
+                        </Button>
                     </form>
                 </div>
                 <div className="preferences">
-                    <h1> {t('preferencies')} </h1>
+                    <h2> {t('preferencies')} </h2>
                     <div className="theme-toggle">
                         <label className="switch">
                             <input
@@ -260,11 +286,35 @@ const Profile = () => {
                         </label>
                         <p>{t("darkTheme")}</p>
                     </div>
-                    <h1>{t("actions")}</h1>
-                    <button className="logout-button" onClick={() => {
-                        dispatch(logOut());
-                        router.push('/');
-                    }}>{t("logout")}</button>
+                    <h2>{t("actions")}</h2>
+                    <Button
+                        sx={{
+                            height: 44,
+                            width: 144,
+                            bgcolor: 'var(--accent)',
+                            color: 'var(--text-color)',
+                            border: 'none',
+                            padding: '12px 48px',
+                            borderRadius: 0,
+                            textTransform: 'none',
+                            py: 1.5,
+                            px: 2,
+                            fontSize: 14,
+                            fontWeight: 400,
+                            alignSelf: 'flex-start',
+                            transition: '0.2s ease-in',
+                            '&:hover': {
+                                bgcolor: 'var(--btn-hover)',
+                                transition: '0.2s ease-in',
+                            }
+                        }}
+                        onClick={() => {
+                            dispatch(logOut());
+                            router.push('/');
+                        }}
+                    >
+                        {t("logout")}
+                    </Button>
                 </div>
             </div>
         </>

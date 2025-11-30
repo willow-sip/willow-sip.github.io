@@ -30,8 +30,7 @@ export default function HomePage() {
       {userAuth && user && <AddPost avatar={user?.profileImage} postCreated={refetch} />} 
       <div className="main-page">
         <div className="posts">
-          {isLoading && <p>Loading posts...</p>}
-          <Suspense fallback={<p>Loading post...</p>}>
+          <Suspense fallback={<p>Loading posts...</p>}>
             {posts.map((post: PostType) => (
               <LazyPost
                 key={post.id}
@@ -42,7 +41,7 @@ export default function HomePage() {
               />
             ))}
           </Suspense>
-        {userAuth && user && <Sidebar />}
+          {userAuth && user && <Sidebar />}
         </div>
       </div>
     </>

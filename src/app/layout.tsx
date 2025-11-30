@@ -1,6 +1,9 @@
 import { Poppins } from 'next/font/google';
 import { Providers } from './providers';
 import { Metadata } from 'next';
+import { AuthProvider } from '@/context/AuthProvider';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 import './globals.css';
 
 const poppins = Poppins({
@@ -22,9 +25,13 @@ export default function RootLayout({
         <html lang="en" className={poppins.className}>
             <body data-theme="dark">
                 <Providers>
-                    <div id="root">
-                        <div id="notification-root" />
-                        {children}
+                    <div className="app" data-theme="dark">
+                        <Header />
+                        <div id="root">
+                            <div id="notification-root" />
+                            {children}
+                        </div>
+                        <Footer />
                     </div>
                 </Providers>
             </body>

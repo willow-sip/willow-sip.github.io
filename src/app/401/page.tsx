@@ -3,11 +3,9 @@
 import { useTranslation } from 'react-i18next';
 import './style.css';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 
 export default function Unauthorized() {
   const { t } = useTranslation();
-  const router = useRouter();
   
   return (
     <div className="error-page">

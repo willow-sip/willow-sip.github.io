@@ -23,7 +23,7 @@ describe('general tests for showNotification', () => {
     showNotification('Something done', 'success', 3000);
 
     expect(createRoot).toHaveBeenCalled();
-    expect(rootRender).toHaveBeenCalledTimes(1); // ← Explicit count
+    expect(rootRender).toHaveBeenCalledTimes(1);
 
     const notification = rootRender.mock.calls[0][0].props.children[0];
     

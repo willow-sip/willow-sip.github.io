@@ -14,7 +14,7 @@
   max-width: 575px;
 }
 
-.edit-profile h1, .preferences h1 {
+.edit-profile h1, .preferences h2 {
   font-size: 28px;
   font-weight: 600;
   color: var(--text-color);
@@ -85,33 +85,6 @@
 #profile-form .form-group textarea{
   width: 575px;
   height: 110px;
-}
-
-#profile-form .save-btn, .logout-button {
-  background-color: var(--accent);
-  height: 44px;
-  color: var(--text-color);
-  border: none;
-  padding: 12px 48px;
-  font-size: 14px;
-  font-weight: 400;
-  cursor: pointer;
-  transition: 0.2s ease-in;
-  align-self: flex-start;
-}
-
-#profile-form .save-btn{
-  width: 244px;
-  margin-bottom: 20px;
-}
-
-.logout-button{
-  width: 144px;
-}
-
-#profile-form .save-btn:hover, .logout-button:hover {
-  background-color: var(--btn-hover);
-  transition: 0.2s ease-in;
 }
 
 .switch {

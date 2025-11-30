@@ -135,12 +135,13 @@ export const Comments = styled.div`
 
 export const CommentSection = styled.div`
   margin-top: 16px;
+  box-sizing: border-box;
 `;
 
-export const AnimatedCommentSection = styled.div<{ height: string }>`
+export const AnimatedCommentSection = styled.div`
   overflow: hidden;
-  transition: max-height 1s ease;
-  max-height:  ${({ height }) => height};
+  transition: height 0.5s ease;
+  height: 0;
 `;
 
 export const AddComment = styled.div`

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import Comment from '../Comment';
 import { useTheme } from '@/context/ThemeContext';
 import { showNotification } from '@/components/notify';
@@ -16,6 +16,7 @@ import { ArrowDown, ArrowUp, CommentSvg, Important, LikeSvg, Pencil } from '@/sv
 import enableAuth from '../WithAuthAndTranslation';
 import { tokenApi } from '@/tokenApi';
 
+import { calculatePublishTime, mapEndings } from '@/utils';
 
 interface PostProps {
     post: PostType;
@@ -62,6 +63,9 @@ class Post extends Component<PostProps, PostState> {
         this.deleteComment = this.deleteComment.bind(this);
     }
 
+    commentBlockRef = createRef<HTMLDivElement>();
+    commentWrapperRef = createRef<HTMLDivElement>();
+
     editComment(newText: string, commentId?: number) {
         this.setState((prev) => ({
             comments: prev.comments?.map((c) =>
@@ -81,81 +85,33 @@ class Post extends Component<PostProps, PostState> {
         showNotification(this.props.t('deleteComment'), 'success', 2000);
     }
 
-    calculatePublishTime = (): { num: number, timeType: string } => {
-        const now = new Date();
-        const published = new Date(this.props.post.creationDate);;
-        const diffMs = now.getTime() - published.getTime();
-
-        const seconds = Math.floor(diffMs / 1000);
-        const minutes = Math.floor(seconds / 60);
-        const hours = Math.floor(minutes / 60);
-        const days = Math.floor(hours / 24);
-
-        const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
-
-        if (seconds < 60) return { num: seconds, timeType: "second" };
-        if (minutes < 60) return { num: minutes, timeType: "minute" };
-        if (hours < 24) return { num: hours, timeType: "hour" };
-        if (days < 7) return { num: days, timeType: "day" };
-        if (days < 30) return { num: Math.floor(days / 7), timeType: "week" };
-        if (days < 365) return { num: Math.floor(days / 30), timeType: "month" };
-
-        return { num: Math.floor(days / 365), timeType: 'year' };
-    };
-
-
-    mapEndings() {
-        let result = { likesEnding: "s", commentEnding: "s" };
-        const likesCount = this.state.likesCount;
-        const commentsCount = this.state.comments?.length || 0;
-
-        const lastLikes = likesCount % 10;
-        const lastTwoLikes = likesCount % 100;
-        const lastComments = commentsCount % 10;
-        const lastTwoComments = commentsCount % 100;
-
-        if (lastTwoLikes >= 11 && lastTwoLikes <= 14) {
-            result.likesEnding = "p2";
-        } else {
-            switch (lastLikes) {
-                case 1:
-                    result.likesEnding = "s";
-                    break;
-                case 2:
-                case 3:
-                case 4:
-                    result.likesEnding = "p1";
-                    break;
-                default:
-                    result.likesEnding = "p2";
-            }
-        }
-
-        if (lastTwoComments >= 11 && lastTwoComments <= 14) {
-            result.commentEnding = "p2";
-        } else {
-            switch (lastComments) {
-                case 1:
-                    result.commentEnding = "s";
-                    break;
-
-                case 2:
-                case 3:
-                case 4:
-                    result.commentEnding = "p1";
-                    break;
-                default:
-                    result.commentEnding = "p2";
-            }
-        }
-
-        return result;
-    }
-
     toggleShowComments = () => {
-        this.setState(prevState => ({
-            showComments: !prevState.showComments
-        }));
+        const content = this.commentBlockRef.current;
+        const wrapper = this.commentWrapperRef.current;
+        if (!content || !wrapper){
+            return;
+        }
+
+        if (!this.state.showComments) {
+            wrapper.style.height = content.scrollHeight + "px";
+            this.setState({ showComments: true });
+        } else {
+            wrapper.style.height = content.scrollHeight + "px";
+            void wrapper.offsetHeight;
+            wrapper.style.height = "0px";
+            this.setState({ showComments: false });
+        }
+    };
+    handleTransitionEnd = () => {
+        const content = this.commentBlockRef.current;
+        const wrapper = this.commentWrapperRef.current;
+        if (!content || !wrapper){
+            return;
+        }
+
+        if (this.state.showComments) {
+            wrapper.style.height = "auto";
+        }
     };
 
     handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -197,7 +153,7 @@ class Post extends Component<PostProps, PostState> {
                         commentLength: 0,
                         addingComment: false,
                     }));
-                    showNotification('Comment updated!', 'success', 2000);
+                    showNotification(this.props.t('createComment'), 'success', 2000);
                 }
             }).catch(err => console.error(err));
     };
@@ -228,7 +184,7 @@ class Post extends Component<PostProps, PostState> {
             })
             .catch(err => {
                 console.error('Error toggling like:', err);
-                showNotification('Network error', 'error', 2000);
+                showNotification(this.props.t('networkError'), 'error', 2000);
             });
     };
 
@@ -279,7 +235,7 @@ class Post extends Component<PostProps, PostState> {
         const { profileImage, firstName, secondName } = this.state.author;
         const theme = useTheme.getState().theme;
 
-        const endings = this.mapEndings();
+        const endings = mapEndings(this.state.likesCount, this.state.comments?.length || 0);
         let likeEnding = "";
         let commentEnding = "";
 
@@ -304,7 +260,7 @@ class Post extends Component<PostProps, PostState> {
                 commentEnding = "commentsPlural2";
         }
 
-        const { num, timeType } = this.calculatePublishTime();
+        const { num, timeType } = calculatePublishTime(this.props.post.creationDate);
 
         return (
             <PostContainer theme={theme}>
@@ -364,8 +320,8 @@ class Post extends Component<PostProps, PostState> {
                     )}
                 </PostButtons>
 
-                <AnimatedCommentSection height={showComments ? "1000px" : "0"}>
-                    <CommentSection >
+                <AnimatedCommentSection ref={this.commentWrapperRef} onTransitionEnd={this.handleTransitionEnd}>
+                    <CommentSection ref={this.commentBlockRef}>
                         {comments?.map((comment) => (
                             <Comment
                                 key={comment.id}
