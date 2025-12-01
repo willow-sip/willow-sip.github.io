@@ -6,6 +6,7 @@
   justify-content: space-between;
   align-items: center;
   height: 68px;
+  position: relative;
 }
 
 .sign-buttons button,
@@ -17,6 +18,7 @@
   cursor: pointer;
   font-size: 18px;
   color: var(--text-color);
+  line-height: 0.5;
 }
 
 .sign-buttons {
@@ -95,6 +97,7 @@
   height: 100%;
   margin: 0;
   padding: 0;
+  line-height: 0.5;
 }
 
 .drawer-header {
@@ -130,6 +133,7 @@
   align-items: center;
   gap: 8px;
 }
+
 
 @media (max-width: 768px) {
   .header {

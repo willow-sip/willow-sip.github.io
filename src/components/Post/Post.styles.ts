@@ -7,18 +7,14 @@ const spin = keyframes`
 
 export const PostContainer = styled.div<{ theme: string }>`
   background-color: var(--gray-900);
-  border: 2px solid var(--gray-400);
-  border-bottom: none;
+  border-bottom: 2px solid var(--gray-400);
   color: var(--text-color);
   padding: 24px;
   box-sizing: border-box;
 
   @media (max-width: 768px) {
     padding: 12px;
-    border-top: 2px solid var(--gray-400);
-    border-bottom: none;
-    border-right: none;
-    border-left: none;
+    border-bottom: 2px solid var(--gray-400);
     background-color: var(--gray-700);
   }
 `;

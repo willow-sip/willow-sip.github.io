@@ -75,8 +75,9 @@ body {
   margin: 0 auto;
   width: 700px;
   justify-self: end;
-  margin-bottom: 40px;
   position: relative;
+  border: 2px solid var(--gray-400);
+  border-bottom: none;
 }
 
 svg path {
@@ -176,5 +177,7 @@ input.error, textarea.error{
   }
   .posts {
     width: 100%;
+    border: none;
+    border-top: 2px solid var(--gray-400);
   }
 }
