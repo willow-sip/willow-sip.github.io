@@ -34,7 +34,7 @@ jobs:
           cp public/mockServiceWorker.js out/mockServiceWorker.js
           touch out/.nojekyll
 
-      - name: Upload artifact
+      - name: Upload build artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
