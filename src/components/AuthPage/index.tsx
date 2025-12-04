@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTheme } from '@/context/ThemeContext';
 import { showNotification } from '@/components/notify';
@@ -9,9 +9,8 @@ import { Formik, Form, Field } from 'formik';
 import { signUp, signIn, updateAuthMode } from '@/slices/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
-
-import styles from './style.module.css';
 import { Envelope, Eye, Important, Like, EyeClosed, Keyboard } from '@/svgs';
+import styles from './style.module.css';
 
 interface Mode {
   mode?: 'signup' | 'signin';
@@ -44,7 +43,7 @@ const AuthPage = ({ mode }: Mode) => {
       errors.password = t('inputPassword');
     } else if (values.password.length < 6) {
       errors.password = t('passwordTooShort');
-    } else if (values.password.length > 20){
+    } else if (values.password.length > 20) {
       errors.password = t('invalidPassword');
     }
 

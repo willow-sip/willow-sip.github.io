@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { User } from '@/data/datatypes';
+import { getTokenExpiration } from '@/utils';
 
 export interface AuthState {
   user: User | null;
@@ -14,15 +15,6 @@ const initialState: AuthState = {
   authMode: null,
   expiresAt: null,
 };
-
-function getTokenExpiration(token: string): number | null {
-  const parts: string[] = token.split('.');
-  if (parts.length === 3) {
-    const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
-    return payload.exp ? payload.exp * 1000 : null;
-  }
-  return null;
-}
 
 export const signUp = createAsyncThunk(
   'auth/signup',

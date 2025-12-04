@@ -6,17 +6,16 @@ import { useTheme } from '@/context/ThemeContext';
 import { showNotification } from '@/components/notify';
 import { Post as PostType, User, Comment as CommentType } from '@/data/datatypes';
 import { TFunction } from 'i18next';
+import { ArrowDown, ArrowUp, CommentSvg, Important, LikeSvg, Pencil } from '@/svgs';
+import enableAuth from '../WithAuthAndTranslation';
+import { tokenApi } from '@/tokenApi';
+import { calculatePublishTime, mapEndings } from '@/utils';
 
 import {
     PostContainer, Author, Avatar, LoadingAvatar, AuthorInfo, AuthorName, PublishTime, PostImage, PostTitle, PostContent, PostButtons,
     Button, Likes, Comments, CommentSection, AddComment, AddCommentHeader, CommentTextarea, AddCommentButton, Spinner, AnimatedHeart,
     AnimatedCommentSection
 } from './Post.styles';
-import { ArrowDown, ArrowUp, CommentSvg, Important, LikeSvg, Pencil } from '@/svgs';
-import enableAuth from '../WithAuthAndTranslation';
-import { tokenApi } from '@/tokenApi';
-
-import { calculatePublishTime, mapEndings } from '@/utils';
 
 interface PostProps {
     post: PostType;
@@ -76,7 +75,6 @@ class Post extends Component<PostProps, PostState> {
     }
 
     deleteComment(commentId?: number) {
-
         this.setState((prev) => ({
             comments: prev.comments?.filter((c) => {
                 return c.id !== commentId;
@@ -88,7 +86,7 @@ class Post extends Component<PostProps, PostState> {
     toggleShowComments = () => {
         const content = this.commentBlockRef.current;
         const wrapper = this.commentWrapperRef.current;
-        if (!content || !wrapper){
+        if (!content || !wrapper) {
             return;
         }
 
@@ -102,10 +100,11 @@ class Post extends Component<PostProps, PostState> {
             this.setState({ showComments: false });
         }
     };
+
     handleTransitionEnd = () => {
         const content = this.commentBlockRef.current;
         const wrapper = this.commentWrapperRef.current;
-        if (!content || !wrapper){
+        if (!content || !wrapper) {
             return;
         }
 
@@ -285,7 +284,8 @@ class Post extends Component<PostProps, PostState> {
                     </Author>
                 )}
 
-                {image && <PostImage data-testid="post-img" src={image} alt="Post" />}
+                {image && <PostImage data-testid="post-img"
+                    src={image} alt="Post" />}
                 <PostTitle data-testid="post-title">{title}</PostTitle>
                 <PostContent data-testid="post-content">{content}</PostContent>
 

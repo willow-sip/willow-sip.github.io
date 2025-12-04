@@ -33,3 +33,7 @@
 .page-switch .active {
   background-color: var(--accent);
 }
+
+.formated-stats{
+  margin-bottom: 40px;
+}

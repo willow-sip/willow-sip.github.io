@@ -2,13 +2,12 @@
 
 import { Component } from 'react';
 import { useTheme } from '@/context/ThemeContext';
-import styles from './style.module.css';
-
 import { User, Group } from '@/data/datatypes';
 import enableAuth from '../WithAuthAndTranslation';
 import { TFunction } from 'i18next';
 import { tokenApi } from '@/tokenApi';
 import Image from 'next/image';
+import styles from './style.module.css';
 
 interface SidebarProps {
     user: User | null;
@@ -21,7 +20,6 @@ interface SidebarState {
     suggestedUsers: User[];
     loading: boolean;
 }
-
 
 const fetchGroups = async (): Promise<Group[]> => {
     const query = `

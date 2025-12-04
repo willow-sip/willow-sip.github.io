@@ -1,14 +1,3 @@
-body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-}
-
 *,
 *::before,
 *::after {
@@ -52,6 +41,12 @@ body {
   padding: 0;
   overflow-x: hidden;
   height: 100%;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .app {
@@ -118,6 +113,7 @@ input, textarea{
   font-weight: 400 !important;
   font-family: inherit;
 }
+
 input::placeholder, textarea::placeholder{
   color: var(--idle-small-text) !important;
 }
@@ -129,6 +125,7 @@ input.error, textarea.error{
   color: var(--error) !important;
   border: 1px solid var(--error) !important;
 }
+
 .helper{
   display: none;
   align-items: center;
@@ -162,15 +159,6 @@ input.error, textarea.error{
   color: var(--accent) !important;
 }
 
-@media (max-width: 480px) {
-  #notification-root {
-    left: 10px;
-    right: 10px;
-    max-width: none;
-    min-width: auto;
-  }
-}
-
 @media (max-width: 768px) {
   .main-page{
     display: block;
@@ -179,5 +167,14 @@ input.error, textarea.error{
     width: 100%;
     border: none;
     border-top: 2px solid var(--gray-400);
+  }
+}
+
+@media (max-width: 480px) {
+  #notification-root {
+    left: 10px;
+    right: 10px;
+    max-width: none;
+    min-width: auto;
   }
 }

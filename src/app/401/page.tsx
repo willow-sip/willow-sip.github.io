@@ -1,8 +1,8 @@
 'use client';
 
 import { useTranslation } from 'react-i18next';
-import './style.css';
 import Image from 'next/image';
+import './style.css';
 
 export default function Unauthorized() {
   const { t } = useTranslation();

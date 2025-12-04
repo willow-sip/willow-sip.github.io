@@ -9,8 +9,8 @@ import { useMutation } from '@tanstack/react-query';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FieldErrors, useForm } from 'react-hook-form';
-import './style.css';
 import { tokenApi } from '@/tokenApi';
+import './style.css';
 
 interface Props {
     close: () => void;
@@ -121,7 +121,7 @@ const AddPostForm = ({ close, postCreated }: Props) => {
                             <Important />
                             <p>
                                 {errors.title ? t('lengthLimitSurpassed')
-                                : t('maxTitleLength', { max: 100 })}
+                                    : t('maxTitleLength', { max: 100 })}
                             </p>
                         </div>
                     </div>
@@ -145,7 +145,7 @@ const AddPostForm = ({ close, postCreated }: Props) => {
                             <Important />
                             <p>
                                 {errors.description ? t('lengthLimitSurpassed')
-                                : t('maxDescLength', { max: 200 })}
+                                    : t('maxDescLength', { max: 200 })}
                             </p>
                         </div>
                     </div>

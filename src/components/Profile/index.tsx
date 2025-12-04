@@ -5,18 +5,18 @@ import { useRouter } from 'next/navigation';
 import { useTheme } from '@/context/ThemeContext';
 import { showNotification } from '@/components/notify';
 import { useTranslation } from 'react-i18next';
-import { useForm, SubmitHandler, Resolver, FieldError, FieldErrors } from "react-hook-form";
+import { useForm, SubmitHandler, Resolver, FieldErrors } from "react-hook-form";
 import { useMutation } from '@tanstack/react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
 import { logOut, updateUser } from '@/slices/authSlice';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import './style.css';
 import { Envelope, Important, Pencil, Person } from '@/svgs';
 import { tokenApi } from '@/tokenApi';
 import Image from 'next/image';
 import { Button } from '@mui/material';
+import './style.css';
 
 interface FormInput {
     username: string;

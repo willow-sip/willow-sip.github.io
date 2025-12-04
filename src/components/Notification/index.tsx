@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Cross, SuccessCheck, Warning } from '@/svgs';
 import styles from './style.module.css';
 
 interface Props {
@@ -16,12 +15,12 @@ interface Props {
 const Notification = ({ message, type, isVisible = false, close, autoHide }: Props) => {
     const [isClosing, setIsClosing] = useState(false);
 
-     useEffect(() => {
+    useEffect(() => {
         if (isVisible) {
             setIsClosing(false);
         }
     }, [isVisible]);
-    
+
     useEffect(() => {
         if (!isVisible) return;
 

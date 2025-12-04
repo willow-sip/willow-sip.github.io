@@ -1,4 +1,4 @@
-import { RefObject } from "react";
+import { Like, Comment } from "./data/datatypes";
 
 export const calculatePublishTime = (creationDate: string): { num: number, timeType: string } => {
     const now = new Date();
@@ -68,8 +68,42 @@ export const mapEndings = (lCount: number, cCount: number): { likesEnding: strin
     return result;
 }
 
-export const calculateHeight = (ref: RefObject<HTMLDivElement | null>, visible?: boolean) => {
-    const element = ref.current;
-    if (!element) return "0";
-    return visible ? `${element.scrollHeight}px` : "0";
+export function getTokenExpiration(token: string): number | null {
+    const parts: string[] = token.split('.');
+    if (parts.length === 3) {
+        const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
+        return payload.exp ? payload.exp * 1000 : null;
+    }
+    return null;
+}
+
+export function transformStatisticsData(data: Like[] | Comment[]): { month: string; count: number }[] {
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const result: { month: string; count: number }[] = [];
+    const monthCounts: { [key: string]: number } = {};
+
+    for (let i = 0; i < data.length; i++) {
+        const item = data[i];
+        const date = new Date(item.creationDate);
+        const monthIndex = date.getMonth();
+        const monthName = monthNames[monthIndex];
+
+        if (monthCounts[monthName] === undefined) {
+            monthCounts[monthName] = 1;
+        } else {
+            monthCounts[monthName] += 1;
+        }
+    }
+
+    for (let i = 0; i < monthNames.length; i++) {
+        const name = monthNames[i];
+        if (monthCounts[name] !== undefined) {
+            result.push({
+                month: name,
+                count: monthCounts[name]
+            });
+        }
+    }
+
+    return result;
 }

@@ -1,16 +1,16 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/context/ThemeContext';
 import TableStats from '../TableStats';
 import ChartStats from '../ChartStats';
-import { useTranslation } from 'react-i18next';
 import './style.css';
 
 import { genStats } from '@/data/dummyStats';
 import { Like, Comment } from '@/data/datatypes';
 import { tokenApi } from '@/tokenApi';
+import { transformStatisticsData } from '@/utils';
 
 export interface StatsData {
     likes: { month: string; count: number }[];
@@ -23,18 +23,6 @@ const Statistics = () => {
     const [likes, setLikes] = useState<Like[] | null>(null);
     const [comments, setComments] = useState<Comment[] | null>(null);
     const { t } = useTranslation();
-
-    const handleToggle = () => {
-        setActiveTab(prev => (prev === 'table' ? 'chart' : 'table'));
-    };
-
-    const stats = React.useMemo(() => {
-        if (!likes || !comments) return null;
-        return {
-            likes: transformData(likes),
-            comments: transformData(comments),
-        };
-    }, [likes, comments]);
 
     useEffect(() => {
         const fetchStats = async () => {
@@ -53,36 +41,17 @@ const Statistics = () => {
         fetchStats();
     }, []);
 
-    function transformData(data: Like[] | Comment[]): { month: string; count: number }[] {
-        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        const result: { month: string; count: number }[] = [];
-        const monthCounts: { [key: string]: number } = {};
+    const stats = useMemo(() => {
+        if (!likes || !comments) return null;
+        return {
+            likes: transformStatisticsData(likes),
+            comments: transformStatisticsData(comments),
+        };
+    }, [likes, comments]);
 
-        for (let i = 0; i < data.length; i++) {
-            const item = data[i];
-            const date = new Date(item.creationDate);
-            const monthIndex = date.getMonth();
-            const monthName = monthNames[monthIndex];
-
-            if (monthCounts[monthName] === undefined) {
-                monthCounts[monthName] = 1;
-            } else {
-                monthCounts[monthName] += 1;
-            }
-        }
-
-        for (let i = 0; i < monthNames.length; i++) {
-            const name = monthNames[i];
-            if (monthCounts[name] !== undefined) {
-                result.push({
-                    month: name,
-                    count: monthCounts[name]
-                });
-            }
-        }
-
-        return result;
-    }
+    const handleToggle = () => {
+        setActiveTab(prev => (prev === 'table' ? 'chart' : 'table'));
+    };
 
     return (
         <div className='stats-page'>
@@ -96,6 +65,7 @@ const Statistics = () => {
                     </div>
                 ))}
             </div>
+
             <div className="stats" data-theme={theme}>
                 <div className="view">
                     <p>{t('tableView')}</p>
